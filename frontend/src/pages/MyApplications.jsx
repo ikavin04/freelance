@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import { FaClipboardList, FaCalendarAlt, FaMapMarkerAlt, FaBriefcase, FaClock, FaPlus } from 'react-icons/fa';
+import { FaClipboardList, FaCalendarAlt, FaMapMarkerAlt, FaBriefcase, FaClock, FaPlus, FaVideo, FaPalette, FaGlobe, FaMobileAlt } from 'react-icons/fa';
 import { applicationAPI, authHelpers } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,13 +27,13 @@ const MyApplications = () => {
   };
 
   const getServiceIcon = (serviceType) => {
-    const icons = {
-      'Video Editing': '🎬',
-      'Poster Design': '🎨',
-      'Website Creation': '🌐',
-      'App Development': '📱'
+    const iconMap = {
+      'Video Editing': <FaVideo className="text-2xl text-white" />,
+      'Poster Design': <FaPalette className="text-2xl text-white" />,
+      'Website Creation': <FaGlobe className="text-2xl text-white" />,
+      'App Development': <FaMobileAlt className="text-2xl text-white" />
     };
-    return icons[serviceType] || '💼';
+    return iconMap[serviceType] || <FaBriefcase className="text-2xl text-white" />;
   };
 
   const formatDate = (dateString) => {
@@ -66,8 +66,8 @@ const MyApplications = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            My <span className="gradient-text">Applications</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-serif">
+            My <span className="text-white">Applications</span>
           </h1>
           <p className="text-gray-400 text-lg">
             Track all your project submissions in one place
@@ -84,7 +84,7 @@ const MyApplications = () => {
           <div className="glass border-2 border-white/20 p-6 rounded-2xl">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl border-2 border-white flex items-center justify-center">
-                <FaClipboardList className="text-2xl" />
+                <FaClipboardList className="text-2xl text-white" />
               </div>
               <div>
                 <div className="text-3xl font-bold">{applications.length}</div>
@@ -96,7 +96,7 @@ const MyApplications = () => {
           <div className="glass border-2 border-white/20 p-6 rounded-2xl">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl border-2 border-white flex items-center justify-center">
-                <FaClock className="text-2xl" />
+                <FaClock className="text-2xl text-white" />
               </div>
               <div>
                 <div className="text-3xl font-bold text-white">Pending</div>
@@ -149,10 +149,12 @@ const MyApplications = () => {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="text-4xl">{getServiceIcon(app.service_type)}</div>
+                    <div className="w-14 h-14 rounded-xl border-2 border-white flex items-center justify-center">
+                      {getServiceIcon(app.service_type)}
+                    </div>
                     <div>
                       <h3 className="text-xl font-bold">{app.service_type}</h3>
-                      <span className="text-xs text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded-full">
+                      <span className="text-xs text-white bg-white/20 px-2 py-1 rounded-full border border-white/30">
                         Pending Review
                       </span>
                     </div>
