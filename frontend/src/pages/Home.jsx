@@ -41,24 +41,26 @@ const Home = () => {
     <div className="min-h-screen bg-black">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Professional Background */}
+        {/* Professional Background with Golden Accents */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-30" style={{ background: 'radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%)' }} />
+          <div className="absolute bottom-1/3 left-1/4 w-80 h-80 rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%)' }} />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-5xl mx-auto">
-            {/* Professional Banner */}
+            {/* Professional Banner with Golden Touch */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="mb-8 inline-block"
             >
-              <div className="px-6 py-2 border border-white/20 rounded-full backdrop-blur-sm">
-                <span className="text-sm font-medium tracking-wider uppercase text-gray-300">
+              <div className="px-6 py-2 border rounded-full backdrop-blur-sm" style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)' }}>
+                <span className="text-sm font-medium tracking-wider uppercase" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #ffffff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   Premium Digital Services
                 </span>
               </div>
@@ -69,7 +71,7 @@ const Home = () => {
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-bold mb-8 leading-tight"
             >
               Crafting Excellence in{' '}
-              <span className="gradient-text">Digital Design</span>
+              <span className="gradient-text-golden">Digital Design</span>
             </motion.h1>
 
             <motion.p
@@ -89,13 +91,15 @@ const Home = () => {
               <Link
                 to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
                 className="group px-10 py-4 bg-white text-black rounded-none font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 flex items-center gap-3 uppercase tracking-wider"
+                style={{ boxShadow: '0 0 30px rgba(212, 175, 55, 0.2)' }}
               >
                 Start a Project
                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/services"
-                className="px-10 py-4 bg-transparent text-white border-2 border-white/30 rounded-none font-semibold text-lg hover:border-white transition-all duration-300 uppercase tracking-wider"
+                className="px-10 py-4 bg-transparent text-white border-2 rounded-none font-semibold text-lg hover:border-white transition-all duration-300 uppercase tracking-wider"
+                style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 15px rgba(212, 175, 55, 0.1)' }}
               >
                 Explore Services
               </Link>
@@ -125,7 +129,7 @@ const Home = () => {
                 { number: '24/7', label: 'SUPPORT', sublabel: 'Always Available' }
               ].map((stat, index) => (
                 <div key={index} className="group">
-                  <div className="border-l-2 border-white/20 pl-6 hover:border-white transition-colors">
+                  <div className="border-l-2 pl-6 transition-all duration-300" style={{ borderColor: index === 0 || index === 2 ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 255, 255, 0.2)' }}>
                     <div className="text-4xl sm:text-5xl font-serif font-bold text-white mb-2">
                       {stat.number}
                     </div>
@@ -217,9 +221,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Professional CTA Section */}
+      {/* Professional CTA Section with Golden Accents */}
       <section className="py-32 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
+        {/* Golden ambient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%)' }} />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
             ref={ctaRef}
@@ -228,18 +234,18 @@ const Home = () => {
             variants={scrollAnimationVariants.fadeInUp}
             className="max-w-5xl mx-auto"
           >
-            {/* Elegant Border Frame */}
-            <div className="border-2 border-white/10 p-16 relative">
-              <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-white" />
-              <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-white" />
-              <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-white" />
-              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-white" />
+            {/* Elegant Border Frame with Golden Corners */}
+            <div className="border-2 border-white/10 p-16 relative" style={{ boxShadow: '0 0 40px rgba(212, 175, 55, 0.1)' }}>
+              <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
+              <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
+              <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
+              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
               
               <div className="text-center">
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold mb-6">
                   Let's Create Something
                   <br />
-                  <span className="gradient-text">Extraordinary</span>
+                  <span className="gradient-text-golden">Extraordinary</span>
                 </h2>
                 <p className="text-gray-500 text-lg sm:text-xl mb-10 max-w-2xl mx-auto font-light leading-relaxed">
                   Transform your vision into reality with meticulous craftsmanship 
@@ -248,6 +254,7 @@ const Home = () => {
                 <Link
                   to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
                   className="inline-block px-12 py-5 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 uppercase tracking-widest text-sm font-bold"
+                  style={{ boxShadow: '0 0 30px rgba(212, 175, 55, 0.3)' }}
                 >
                   Initiate Collaboration
                 </Link>

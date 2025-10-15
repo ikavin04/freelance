@@ -16,41 +16,43 @@ const About = () => {
   return (
     <div className="min-h-screen pt-32 pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Header with Golden Accent */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-block px-4 py-1 border border-white/20 rounded-full mb-6">
-            <span className="text-xs uppercase tracking-widest text-gray-400">About</span>
+          <div className="inline-block px-4 py-1 border rounded-full mb-6" style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 15px rgba(212, 175, 55, 0.1)' }}>
+            <span className="text-xs uppercase tracking-widest gradient-text-golden">About</span>
           </div>
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold mb-6">
-            The <span className="gradient-text">Professional</span>
+            The <span className="gradient-text-golden">Professional</span>
           </h1>
-          <div className="w-32 h-px bg-white mx-auto" />
+          <div className="w-32 h-px mx-auto" style={{ background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent)' }} />
         </motion.div>
 
         {/* Main Content */}
         <div className="max-w-4xl mx-auto">
-          {/* Profile Card */}
+          {/* Profile Card with Golden Accent */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="border-2 border-white/10 p-12 sm:p-16 mb-12"
+            className="border-2 p-12 sm:p-16 mb-12 relative"
+            style={{ borderColor: 'rgba(212, 175, 55, 0.2)', boxShadow: '0 0 30px rgba(212, 175, 55, 0.1)' }}
           >
             <div className="flex flex-col items-center mb-8">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.4, type: 'spring', stiffness: 200 }}
-                className="w-32 h-32 border-2 border-white flex items-center justify-center text-5xl font-serif font-bold mb-6"
+                className="w-32 h-32 border-2 flex items-center justify-center text-5xl font-serif font-bold mb-6 gradient-text-golden"
+                style={{ borderColor: 'rgba(212, 175, 55, 0.4)' }}
               >
                 K
               </motion.div>
-              <h2 className="text-4xl font-serif font-bold mb-2">KAVIN</h2>
+              <h2 className="text-4xl font-serif font-bold mb-2 gradient-text-golden">KAVIN</h2>
               <p className="text-gray-400 text-lg uppercase tracking-widest text-sm">Creative Developer & Designer</p>
             </div>
 

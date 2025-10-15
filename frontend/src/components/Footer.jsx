@@ -28,12 +28,12 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
         <div className="flex flex-col items-center space-y-8">
-          {/* Logo */}
+          {/* Logo with Golden Accent */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl sm:text-4xl font-serif font-bold text-white tracking-tight"
+            className="text-3xl sm:text-4xl font-serif font-bold tracking-tight gradient-text-golden"
           >
             KAVIN
           </motion.div>
@@ -91,24 +91,6 @@ const Footer = () => {
             <p className="flex items-center gap-1">
               Built with <FaHeart className="text-white inline animate-pulse" /> using React, Flask & PostgreSQL
             </p>
-          </motion.div>
-
-          {/* Tech Stack Pills */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-2"
-          >
-            {['React', 'Flask', 'PostgreSQL', 'Tailwind CSS', 'Framer Motion'].map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-1 text-xs border border-white/20 uppercase tracking-wider text-gray-400"
-              >
-                {tech}
-              </span>
-            ))}
           </motion.div>
         </div>
       </div>

@@ -35,6 +35,26 @@ body::before {
   z-index: 0;
 }
 
+/* Elegant golden gradient accents */
+body::after {
+  content: '';
+  position: fixed;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -30px) rotate(5deg); }
+  66% { transform: translate(-20px, 20px) rotate(-5deg); }
+}
+
 /* Custom Scrollbar - Black & White Theme */
 ::-webkit-scrollbar {
   width: 10px;
@@ -53,13 +73,13 @@ body::before {
   background: linear-gradient(180deg, #cccccc 0%, #666666 100%);
 }
 
-/* Professional Glassmorphism - Black & White */
+/* Professional Glassmorphism - Black & White with Golden Touch */
 .glass {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(212, 175, 55, 0.1);
 }
 
 .glass-dark {
@@ -67,7 +87,16 @@ body::before {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 1px rgba(212, 175, 55, 0.15);
+}
+
+/* Golden accent glass for premium sections */
+.glass-golden {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.1);
 }
 
 /* Smooth transitions */
@@ -91,6 +120,39 @@ input:focus, textarea:focus, select:focus {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+/* Elegant Golden Gradient Text */
+.gradient-text-golden {
+  background: linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { 
+    background-position: 0% 50%; 
+    filter: brightness(1);
+  }
+  50% { 
+    background-position: 100% 50%; 
+    filter: brightness(1.2);
+  }
+}
+
+/* Golden accent for borders */
+.border-golden {
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.border-golden-glow {
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 
 /* Elegant serif headings */
@@ -151,6 +213,23 @@ input:focus, textarea:focus, select:focus {
   background: #ffffff;
   color: #000000;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Premium golden button */
+.btn-golden {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(255, 255, 255, 0.1));
+  color: #ffffff;
+  font-weight: 600;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.btn-golden:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(255, 255, 255, 0.2));
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Shake animation for errors */

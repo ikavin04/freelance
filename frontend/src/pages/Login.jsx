@@ -79,18 +79,20 @@ const Login = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="glass-dark p-8 rounded-3xl"
+          style={{ boxShadow: '0 8px 32px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.15)' }}
         >
-          {/* Header */}
+          {/* Header with Golden Accent */}
           <div className="text-center mb-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200 }}
-              className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center mx-auto mb-4"
+              className="w-20 h-20 rounded-full border-4 flex items-center justify-center mx-auto mb-4"
+              style={{ borderColor: 'rgba(212, 175, 55, 0.4)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.2)' }}
             >
-              <FaSignInAlt className="text-3xl" />
+              <FaSignInAlt className="text-3xl gradient-text-golden" />
             </motion.div>
-            <h1 className="text-3xl font-bold mb-2 font-serif">Welcome Back</h1>
+            <h1 className="text-3xl font-bold mb-2 font-serif gradient-text-golden">Welcome Back</h1>
             <p className="text-gray-400">Login to your account</p>
           </div>
 

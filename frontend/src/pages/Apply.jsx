@@ -88,23 +88,25 @@ const Apply = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="glass-dark p-8 sm:p-10 rounded-3xl"
+          style={{ boxShadow: '0 8px 32px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.15)' }}
         >
-          {/* Header */}
+          {/* Header with Golden Accent */}
           <div className="text-center mb-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200 }}
-              className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center mx-auto mb-4"
+              className="w-20 h-20 rounded-full border-4 flex items-center justify-center mx-auto mb-4"
+              style={{ borderColor: 'rgba(212, 175, 55, 0.4)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.2)' }}
             >
-              <FaPaperPlane className="text-3xl" />
+              <FaPaperPlane className="text-3xl gradient-text-golden" />
             </motion.div>
-            <h1 className="text-3xl sm:text-4xl font-bold mb-2 font-serif">
-              Submit Project <span className="text-white">Proposal</span>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-2 font-serif gradient-text-golden">
+              Submit Project <span className="gradient-text-golden">Proposal</span>
             </h1>
             <p className="text-gray-400">Complete the form below to begin your project consultation</p>
-            <div className="mt-4 inline-block px-4 py-2 glass rounded-full text-sm border border-white/20">
-              <span className="text-white">Complimentary consultation included</span>
+            <div className="mt-4 inline-block px-4 py-2 glass rounded-full text-sm border" style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 15px rgba(212, 175, 55, 0.1)' }}>
+              <span className="gradient-text-golden">Complimentary consultation included</span>
             </div>
           </div>
 

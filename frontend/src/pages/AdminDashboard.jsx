@@ -120,15 +120,16 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen pt-28 pb-20 px-4">
       <div className="container mx-auto max-w-7xl">
-        {/* Simple Header */}
+        {/* Simple Header with Golden Accent */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           className="mb-6"
         >
-          <h1 className="text-2xl font-bold mb-2">My Applications</h1>
+          <h1 className="text-2xl font-bold mb-2 gradient-text-golden">My Applications</h1>
           <p className="text-gray-400">Manage client project requests</p>
+          <div className="w-24 h-px mt-4" style={{ background: 'linear-gradient(90deg, rgba(212, 175, 55, 0.6), transparent)' }} />
         </motion.div>
 
         {/* Applications List */}

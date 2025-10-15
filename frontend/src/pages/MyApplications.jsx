@@ -59,19 +59,20 @@ const MyApplications = () => {
   return (
     <div className="min-h-screen pt-28 pb-20 px-4">
       <div className="container mx-auto max-w-6xl">
-        {/* Header */}
+        {/* Header with Golden Accent */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-serif">
-            My <span className="text-white">Applications</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-serif gradient-text-golden">
+            My <span className="gradient-text-golden">Applications</span>
           </h1>
           <p className="text-gray-400 text-lg">
             Track all your project submissions in one place
           </p>
+          <div className="w-32 h-px mx-auto mt-6" style={{ background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent)' }} />
         </motion.div>
 
         {/* Stats */}

@@ -63,24 +63,24 @@ const Services = () => {
   return (
     <div className="min-h-screen pt-32 pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Header with Golden Accents */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <div className="inline-block px-4 py-1 border border-white/20 rounded-full mb-6">
-            <span className="text-xs uppercase tracking-widest text-gray-400">Services</span>
+          <div className="inline-block px-4 py-1 border rounded-full mb-6" style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 15px rgba(212, 175, 55, 0.1)' }}>
+            <span className="text-xs uppercase tracking-widest gradient-text-golden">Services</span>
           </div>
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold mb-8">
-            Professional <span className="gradient-text">Services</span>
+            Professional <span className="gradient-text-golden">Services</span>
           </h1>
           <p className="text-gray-400 text-lg sm:text-xl max-w-3xl mx-auto font-light leading-relaxed">
             Comprehensive digital solutions designed to accelerate your business growth. 
             Professional services tailored to meet your specific objectives and requirements.
           </p>
-          <div className="w-32 h-px bg-white mx-auto mt-8" />
+          <div className="w-32 h-px mx-auto mt-8" style={{ background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent)' }} />
         </motion.div>
 
         {/* Services Grid */}
@@ -173,22 +173,26 @@ const Services = () => {
           </motion.div>
         </motion.div>
 
-        {/* CTA Section */}
+        {/* CTA Section with Golden Accents */}
         <motion.div
           ref={ctaRef}
           initial="hidden"
           animate={ctaVisible ? "visible" : "hidden"}
           variants={scrollAnimationVariants.fadeInUp}
-          className="glass-dark border-4 border-white p-8 sm:p-12 rounded-3xl text-center relative overflow-hidden"
+          className="glass-dark border-4 p-8 sm:p-12 rounded-3xl text-center relative overflow-hidden"
+          style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 40px rgba(212, 175, 55, 0.15)' }}
         >
-          {/* Corner Decorations */}
-          <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-white" />
-          <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-white" />
-          <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-white" />
-          <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-white" />
+          {/* Golden Corner Decorations */}
+          <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4" style={{ borderColor: 'rgba(212, 175, 55, 0.6)' }} />
+          <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4" style={{ borderColor: 'rgba(212, 175, 55, 0.6)' }} />
+          <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4" style={{ borderColor: 'rgba(212, 175, 55, 0.6)' }} />
+          <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4" style={{ borderColor: 'rgba(212, 175, 55, 0.6)' }} />
+          
+          {/* Subtle golden glow */}
+          <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%)' }} />
           
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-5xl font-bold mb-4 font-serif">
+            <h2 className="text-3xl sm:text-5xl font-bold mb-4 font-serif gradient-text-golden">
               Ready to Get Started?
             </h2>
             <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
@@ -198,6 +202,7 @@ const Services = () => {
             <Link
               to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
               className="inline-block px-8 py-4 bg-white text-black rounded-full font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all"
+              style={{ boxShadow: '0 0 25px rgba(212, 175, 55, 0.3)' }}
             >
               Request Consultation
             </Link>

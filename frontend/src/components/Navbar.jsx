@@ -50,10 +50,17 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          {/* Logo with Golden Accent */}
+          <Link to="/" className="flex items-center space-x-2 group">
             <motion.div
-                className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight"
+                className="text-2xl sm:text-3xl font-serif font-bold tracking-tight transition-all duration-300"
+                style={{ 
+                  background: 'linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #ffffff 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 3s ease-in-out infinite'
+                }}
             >
               KAVIN
             </motion.div>
