@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaCheckCircle, FaCheck, FaTimes } from 'react-icons/fa';
 import { authAPI } from '../services/api';
 
 const Register = () => {
@@ -20,6 +20,20 @@ const Register = () => {
   const [otp, setOtp] = useState('');
   const [otpLoading, setOtpLoading] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState('');
+
+  // Password strength validation
+  const passwordStrength = useMemo(() => {
+    const password = formData.password;
+    const checks = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    };
+    const passedChecks = Object.values(checks).filter(Boolean).length;
+    return { checks, passedChecks };
+  }, [formData.password]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -141,7 +155,7 @@ const Register = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  minLength={6}
+                  minLength={8}
                   className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="••••••••"
                 />
@@ -153,6 +167,72 @@ const Register = () => {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
+              
+              {/* Password Strength Indicator */}
+              {formData.password && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-3 p-3 glass rounded-lg space-y-2"
+                >
+                  <p className="text-xs font-semibold text-gray-300 mb-2">Password Requirements:</p>
+                  <div className="space-y-1 text-xs">
+                    <div className={`flex items-center gap-2 ${passwordStrength.checks.length ? 'text-green-400' : 'text-gray-400'}`}>
+                      {passwordStrength.checks.length ? <FaCheck className="text-xs" /> : <FaTimes className="text-xs" />}
+                      <span>At least 8 characters</span>
+                    </div>
+                    <div className={`flex items-center gap-2 ${passwordStrength.checks.uppercase ? 'text-green-400' : 'text-gray-400'}`}>
+                      {passwordStrength.checks.uppercase ? <FaCheck className="text-xs" /> : <FaTimes className="text-xs" />}
+                      <span>One uppercase letter</span>
+                    </div>
+                    <div className={`flex items-center gap-2 ${passwordStrength.checks.lowercase ? 'text-green-400' : 'text-gray-400'}`}>
+                      {passwordStrength.checks.lowercase ? <FaCheck className="text-xs" /> : <FaTimes className="text-xs" />}
+                      <span>One lowercase letter</span>
+                    </div>
+                    <div className={`flex items-center gap-2 ${passwordStrength.checks.number ? 'text-green-400' : 'text-gray-400'}`}>
+                      {passwordStrength.checks.number ? <FaCheck className="text-xs" /> : <FaTimes className="text-xs" />}
+                      <span>One number</span>
+                    </div>
+                    <div className={`flex items-center gap-2 ${passwordStrength.checks.special ? 'text-green-400' : 'text-gray-400'}`}>
+                      {passwordStrength.checks.special ? <FaCheck className="text-xs" /> : <FaTimes className="text-xs" />}
+                      <span>One special character (!@#$%^&*)</span>
+                    </div>
+                  </div>
+                  
+                  {/* Strength Bar */}
+                  <div className="mt-2">
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((level) => (
+                        <div
+                          key={level}
+                          className={`h-1 flex-1 rounded-full transition-all ${
+                            level <= passwordStrength.passedChecks
+                              ? passwordStrength.passedChecks <= 2
+                                ? 'bg-red-500'
+                                : passwordStrength.passedChecks <= 3
+                                ? 'bg-yellow-500'
+                                : 'bg-green-500'
+                              : 'bg-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <p className={`text-xs mt-1 ${
+                      passwordStrength.passedChecks <= 2
+                        ? 'text-red-400'
+                        : passwordStrength.passedChecks <= 3
+                        ? 'text-yellow-400'
+                        : 'text-green-400'
+                    }`}>
+                      {passwordStrength.passedChecks === 5
+                        ? 'Strong password'
+                        : passwordStrength.passedChecks >= 3
+                        ? 'Medium password'
+                        : 'Weak password'}
+                    </p>
+                  </div>
+                </motion.div>
+              )}
             </div>
 
             {/* Confirm Password */}
@@ -166,7 +246,7 @@ const Register = () => {
                   value={formData.confirm_password}
                   onChange={handleChange}
                   required
-                  minLength={6}
+                  minLength={8}
                   className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="••••••••"
                 />

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt
 from flask_mail import Message
 from models import db, User, OTP
 from datetime import datetime, timedelta
@@ -12,6 +12,25 @@ def validate_email(email):
     """Validate email format"""
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(pattern, email) is not None
+
+def validate_password_strength(password):
+    """Validate password complexity requirements"""
+    if len(password) < 8:
+        return False, 'Password must be at least 8 characters long'
+    
+    if not re.search(r'[A-Z]', password):
+        return False, 'Password must contain at least one uppercase letter'
+    
+    if not re.search(r'[a-z]', password):
+        return False, 'Password must contain at least one lowercase letter'
+    
+    if not re.search(r'\d', password):
+        return False, 'Password must contain at least one number'
+    
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False, 'Password must contain at least one special character (!@#$%^&*(),.?":{}|<>)'
+    
+    return True, 'Password is strong'
 
 def generate_otp():
     """Generate a 6-digit OTP"""
@@ -72,9 +91,10 @@ def register():
         if password != confirm_password:
             return jsonify({'message': 'Passwords do not match'}), 400
         
-        # Check password strength
-        if len(password) < 6:
-            return jsonify({'message': 'Password must be at least 6 characters long'}), 400
+        # Check password strength with complexity rules
+        is_strong, strength_message = validate_password_strength(password)
+        if not is_strong:
+            return jsonify({'message': strength_message}), 400
         
         # Check if user already exists
         existing_user = User.query.filter_by(email=email).first()
@@ -214,23 +234,26 @@ def login():
         # Find user
         user = User.query.filter_by(email=email).first()
         
+        # User not found - show generic error for security
         if not user:
-            return jsonify({'message': 'Invalid email or password'}), 401
+            return jsonify({'message': 'Invalid credentials. Please check your email and password or register if you are new.'}), 401
         
         # Check if user is verified
         if not user.verified:
-            return jsonify({'message': 'Please verify your email before logging in'}), 401
+            return jsonify({'message': 'Please verify your email before logging in. Check your inbox for the OTP.'}), 401
         
         # Check password
         if not current_app.bcrypt.check_password_hash(user.password, password):
-            return jsonify({'message': 'Invalid email or password'}), 401
+            return jsonify({'message': 'Invalid credentials. Please check your email and password.'}), 401
         
-        # Generate JWT token
+        # Generate JWT tokens (access + refresh)
         access_token = create_access_token(identity=email)
+        refresh_token = create_refresh_token(identity=email)
         
         return jsonify({
             'message': 'Login successful!',
             'access_token': access_token,
+            'refresh_token': refresh_token,
             'user': user.to_dict()
         }), 200
         
@@ -255,12 +278,14 @@ def admin_login():
         if not current_app.bcrypt.check_password_hash(user.password, admin_password):
             return jsonify({'message': 'Invalid admin credentials'}), 401
         
-        # Create JWT token
+        # Create JWT tokens (access + refresh)
         access_token = create_access_token(identity=admin_email)
+        refresh_token = create_refresh_token(identity=admin_email)
         
         return jsonify({
             'message': 'Admin login successful!',
             'access_token': access_token,
+            'refresh_token': refresh_token,
             'user': user.to_dict()
         }), 200
         
@@ -282,3 +307,25 @@ def get_current_user():
         
     except Exception as e:
         return jsonify({'message': f'Failed to get user: {str(e)}'}), 500
+
+@auth_bp.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    """Refresh access token using refresh token"""
+    try:
+        current_user_email = get_jwt_identity()
+        
+        # Verify user still exists
+        user = User.query.filter_by(email=current_user_email).first()
+        if not user:
+            return jsonify({'message': 'User not found'}), 404
+        
+        # Create new access token
+        new_access_token = create_access_token(identity=current_user_email)
+        
+        return jsonify({
+            'access_token': new_access_token
+        }), 200
+        
+    except Exception as e:
+        return jsonify({'message': f'Token refresh failed: {str(e)}'}), 500

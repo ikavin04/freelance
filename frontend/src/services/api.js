@@ -23,16 +23,52 @@ api.interceptors.request.use(
   }
 );
 
-// Handle response errors
+// Handle response errors with token refresh
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+    
+    // If 401 error and we haven't tried to refresh yet
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      
+      const refreshToken = localStorage.getItem('refreshToken');
+      
+      if (refreshToken) {
+        try {
+          // Try to refresh the access token
+          const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {}, {
+            headers: {
+              'Authorization': `Bearer ${refreshToken}`
+            }
+          });
+          
+          const { access_token } = response.data;
+          
+          // Save new access token
+          localStorage.setItem('token', access_token);
+          
+          // Retry original request with new token
+          originalRequest.headers.Authorization = `Bearer ${access_token}`;
+          return api(originalRequest);
+          
+        } catch (refreshError) {
+          // Refresh failed - clear tokens and redirect to login
+          localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+          return Promise.reject(refreshError);
+        }
+      } else {
+        // No refresh token - clear and redirect
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
     }
+    
     return Promise.reject(error);
   }
 );
@@ -45,6 +81,7 @@ export const authAPI = {
   login: (data) => api.post('/auth/login', data),
   adminLogin: () => api.post('/auth/admin-login'),
   getCurrentUser: () => api.get('/auth/me'),
+  refreshToken: () => api.post('/auth/refresh'),
 };
 
 // Application API calls
@@ -55,33 +92,93 @@ export const applicationAPI = {
   updateApplicationStatus: (appId, status) => api.put(`/applications/${appId}/status`, { status }),
 };
 
-// Auth helper functions
+// Auth helper functions with error handling for localStorage
 export const authHelpers = {
   setToken: (token) => {
-    localStorage.setItem('token', token);
+    try {
+      localStorage.setItem('token', token);
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      // Fallback: store in memory (less secure, session only)
+      window._token = token;
+    }
   },
   getToken: () => {
-    return localStorage.getItem('token');
+    try {
+      return localStorage.getItem('token');
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      return window._token || null;
+    }
   },
   removeToken: () => {
-    localStorage.removeItem('token');
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      delete window._token;
+      delete window._refreshToken;
+    }
+  },
+  setRefreshToken: (refreshToken) => {
+    try {
+      localStorage.setItem('refreshToken', refreshToken);
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      window._refreshToken = refreshToken;
+    }
+  },
+  getRefreshToken: () => {
+    try {
+      return localStorage.getItem('refreshToken');
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      return window._refreshToken || null;
+    }
   },
   setUser: (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
+    try {
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      window._user = user;
+    }
   },
   getUser: () => {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    try {
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user) : null;
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      return window._user || null;
+    }
   },
   removeUser: () => {
-    localStorage.removeItem('user');
+    try {
+      localStorage.removeItem('user');
+    } catch (e) {
+      console.error('localStorage unavailable:', e);
+      delete window._user;
+    }
   },
   isAuthenticated: () => {
-    return !!localStorage.getItem('token');
+    try {
+      return !!localStorage.getItem('token');
+    } catch (e) {
+      return !!window._token;
+    }
   },
   logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+    } catch (e) {
+      delete window._token;
+      delete window._refreshToken;
+      delete window._user;
+    }
     window.location.href = '/login';
   },
 };

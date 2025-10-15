@@ -26,10 +26,11 @@ const Login = () => {
 
     try {
       const response = await authAPI.login(formData);
-      const { access_token, user } = response.data;
+      const { access_token, refresh_token, user } = response.data;
       
-      // Store token and user info
+      // Store tokens and user info
       authHelpers.setToken(access_token);
+      authHelpers.setRefreshToken(refresh_token);
       authHelpers.setUser(user);
       
       toast.success('Login successful! Welcome back!');
@@ -55,10 +56,11 @@ const Login = () => {
     setAdminLoading(true);
     try {
       const response = await authAPI.adminLogin();
-      const { access_token, user } = response.data;
+      const { access_token, refresh_token, user } = response.data;
       
-      // Store token and user data
+      // Store tokens and user data
       authHelpers.setToken(access_token);
+      authHelpers.setRefreshToken(refresh_token);
       authHelpers.setUser(user);
       
       toast.success('Admin login successful!');

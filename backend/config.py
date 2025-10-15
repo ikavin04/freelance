@@ -12,6 +12,13 @@ class Config:
     # JWT
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'your-secret-key-change-in-production')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=24)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
+    
+    # Cookie settings for httpOnly tokens (optional, more secure)
+    JWT_TOKEN_LOCATION = ['headers']  # Can add 'cookies' for httpOnly
+    JWT_COOKIE_SECURE = os.getenv('JWT_COOKIE_SECURE', 'False') == 'True'  # True in production with HTTPS
+    JWT_COOKIE_CSRF_PROTECT = False  # Enable in production if using cookies
+    JWT_COOKIE_SAMESITE = 'Lax'
     
     # Mail Configuration
     MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
