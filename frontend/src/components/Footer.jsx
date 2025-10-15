@@ -87,10 +87,6 @@ const Footer = () => {
             <p className="flex items-center gap-1">
               © 2025 Kavin Creative Hub. All rights reserved.
             </p>
-            <span className="hidden sm:block">•</span>
-            <p className="flex items-center gap-1">
-              Built with <FaHeart className="text-white inline animate-pulse" /> using React, Flask & PostgreSQL
-            </p>
           </motion.div>
         </div>
       </div>
