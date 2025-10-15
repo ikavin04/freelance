@@ -20,9 +20,7 @@ const Services = () => {
         'Professional audio enhancement',
         'Motion graphics integration',
         'Multi-platform optimization'
-      ],
-      gradient: 'from-blue-500 via-blue-600 to-cyan-500',
-      bgGradient: 'from-blue-500/20 to-cyan-500/20'
+      ]
     },
     {
       icon: FaImage,
@@ -34,9 +32,7 @@ const Services = () => {
         'Digital asset creation',
         'Print and web optimization',
         'Brand guideline documentation'
-      ],
-      gradient: 'from-cyan-500 via-blue-500 to-blue-600',
-      bgGradient: 'from-cyan-500/20 to-blue-500/20'
+      ]
     },
     {
       icon: FaCode,
@@ -48,9 +44,7 @@ const Services = () => {
         'Performance optimization',
         'Custom backend solutions',
         'Content management integration'
-      ],
-      gradient: 'from-blue-500 via-cyan-500 to-teal-500',
-      bgGradient: 'from-blue-500/20 to-cyan-500/20'
+      ]
     },
     {
       icon: FaMobile,
@@ -62,9 +56,7 @@ const Services = () => {
         'API integration and development',
         'Real-time features and notifications',
         'App store optimization and deployment'
-      ],
-      gradient: 'from-green-500 via-teal-500 to-blue-500',
-      bgGradient: 'from-green-500/20 to-teal-500/20'
+      ]
     }
   ];
 
@@ -76,16 +68,19 @@ const Services = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-            My <span className="gradient-text">Services</span>
+          <div className="inline-block px-4 py-1 border border-white/20 rounded-full mb-6">
+            <span className="text-xs uppercase tracking-widest text-gray-400">Services</span>
+          </div>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold mb-8">
+            Professional <span className="gradient-text">Services</span>
           </h1>
-          <p className="text-gray-300 text-lg sm:text-xl max-w-3xl mx-auto">
+          <p className="text-gray-400 text-lg sm:text-xl max-w-3xl mx-auto font-light leading-relaxed">
             Comprehensive digital solutions designed to accelerate your business growth. 
             Professional services tailored to meet your specific objectives and requirements.
           </p>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary-400 to-accent-400 mx-auto rounded-full mt-6" />
+          <div className="w-32 h-px bg-white mx-auto mt-8" />
         </motion.div>
 
         {/* Services Grid */}
@@ -104,9 +99,9 @@ const Services = () => {
               className="glass-dark rounded-3xl overflow-hidden hover:bg-white/5 transition-colors group"
             >
               {/* Card Header */}
-              <div className={`p-8 bg-gradient-to-br ${service.bgGradient} relative overflow-hidden`}>
+              <div className="p-8 border-b-2 border-white/10 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-4 relative z-10`}>
+                <div className="w-16 h-16 rounded-2xl border-2 border-white flex items-center justify-center mb-4 relative z-10">
                   <service.icon className="text-3xl text-white" />
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold mb-2 relative z-10">{service.title}</h3>
@@ -115,7 +110,7 @@ const Services = () => {
 
               {/* Card Body */}
               <div className="p-8">
-                <h4 className="text-lg font-semibold mb-4 text-primary-400">What's Included:</h4>
+                <h4 className="text-lg font-semibold mb-4 text-white">What's Included:</h4>
                 <ul className="space-y-3">
                   {service.features.map((feature, idx) => (
                     <motion.li
@@ -125,7 +120,7 @@ const Services = () => {
                       transition={{ delay: 0.5 + idx * 0.1 }}
                       className="flex items-start gap-3"
                     >
-                      <div className={`w-5 h-5 rounded-full bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                      <div className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0 mt-0.5">
                         <FaCheck className="text-xs text-white" />
                       </div>
                       <span className="text-gray-300">{feature}</span>
@@ -145,9 +140,10 @@ const Services = () => {
           variants={scrollAnimationVariants.fadeInUp}
           className="mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-            How It <span className="gradient-text">Works</span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 font-serif">
+            How It <span className="text-white">Works</span>
           </h2>
+          <div className="w-24 h-1 bg-white mx-auto mb-12" />
           <motion.div 
             initial="hidden"
             animate={processVisible ? "visible" : "hidden"}
@@ -164,13 +160,13 @@ const Services = () => {
                 key={index}
                 variants={scrollAnimationVariants.fadeInUp}
                 transition={{ delay: index * 0.1 }}
-                className="glass p-6 rounded-2xl text-center relative hover:bg-white/10 transition-colors"
+                className="glass border-2 border-white/20 p-6 rounded-2xl text-center relative hover:border-white transition-colors"
               >
-                <div className="text-5xl font-bold gradient-text mb-4">{item.step}</div>
+                <div className="text-5xl font-bold text-white mb-4 font-serif">{item.step}</div>
                 <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                 <p className="text-gray-400 text-sm">{item.description}</p>
                 {index < 3 && (
-                  <FaArrowRight className="hidden lg:block absolute top-1/2 -right-8 text-primary-400 text-2xl" />
+                  <FaArrowRight className="hidden lg:block absolute top-1/2 -right-8 text-white text-2xl" />
                 )}
               </motion.div>
             ))}
@@ -183,11 +179,16 @@ const Services = () => {
           initial="hidden"
           animate={ctaVisible ? "visible" : "hidden"}
           variants={scrollAnimationVariants.fadeInUp}
-          className="glass-dark p-8 sm:p-12 rounded-3xl text-center relative overflow-hidden"
+          className="glass-dark border-4 border-white p-8 sm:p-12 rounded-3xl text-center relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-accent-600/20 blur-3xl" />
+          {/* Corner Decorations */}
+          <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-white" />
+          <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-white" />
+          <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-white" />
+          <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-white" />
+          
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            <h2 className="text-3xl sm:text-5xl font-bold mb-4 font-serif">
               Ready to Get Started?
             </h2>
             <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
@@ -196,7 +197,7 @@ const Services = () => {
             </p>
             <Link
               to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
-              className="inline-block px-8 py-4 bg-gradient-to-r from-primary-600 to-accent-600 rounded-full font-semibold text-lg hover:opacity-90 transition-opacity"
+              className="inline-block px-8 py-4 bg-white text-black rounded-full font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all"
             >
               Request Consultation
             </Link>

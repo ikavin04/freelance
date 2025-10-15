@@ -68,10 +68,10 @@ const AdminDashboard = () => {
 
   const getStatusColor = (status) => {
     switch(status) {
-      case 'pending': return 'text-yellow-400 bg-yellow-400/20';
-      case 'accepted': return 'text-blue-400 bg-blue-400/20';
-      case 'completed': return 'text-green-400 bg-green-400/20';
-      case 'rejected': return 'text-red-400 bg-red-400/20';
+      case 'pending': return 'text-white bg-white/20';
+      case 'accepted': return 'text-white bg-white/30';
+      case 'completed': return 'text-white bg-white/40';
+      case 'rejected': return 'text-gray-400 bg-gray-400/20';
       default: return 'text-gray-400 bg-gray-400/20';
     }
   };
@@ -170,19 +170,19 @@ const AdminDashboard = () => {
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
                         <div className="flex items-center gap-2 text-gray-300">
-                          <FaEnvelope className="text-primary-400" />
+                          <FaEnvelope className="text-white" />
                           <span>{app.user_email}</span>
                         </div>
                         <div className="flex items-center gap-2 text-gray-300">
-                          <FaMapMarkerAlt className="text-accent-400" />
+                          <FaMapMarkerAlt className="text-white" />
                           <span>{app.city}</span>
                         </div>
                         <div className="flex items-center gap-2 text-gray-300">
-                          <FaClock className="text-green-400" />
+                          <FaClock className="text-white" />
                           <span>{app.days} days</span>
                         </div>
                         <div className="flex items-center gap-2 text-gray-300">
-                          <FaCalendarAlt className="text-blue-400" />
+                          <FaCalendarAlt className="text-white" />
                           <span>{formatDate(app.created_at)}</span>
                         </div>
                         <div className="sm:col-span-2 lg:col-span-2">
@@ -204,14 +204,14 @@ const AdminDashboard = () => {
                       <>
                         <button
                           onClick={() => updateApplicationStatus(app.id, 'accepted')}
-                          className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm font-medium transition-colors"
+                          className="flex items-center gap-2 px-4 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white rounded-lg text-sm font-medium transition-all"
                         >
                           <FaCheck />
                           Accept
                         </button>
                         <button
                           onClick={() => updateApplicationStatus(app.id, 'rejected')}
-                          className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-medium transition-colors"
+                          className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white hover:bg-gray-700 border-2 border-gray-600 rounded-lg text-sm font-medium transition-all"
                         >
                           <FaTimes />
                           Reject
@@ -222,7 +222,7 @@ const AdminDashboard = () => {
                     {app.status === 'accepted' && (
                       <button
                         onClick={() => updateApplicationStatus(app.id, 'completed')}
-                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white rounded-lg text-sm font-medium transition-all"
                       >
                         <FaCheck />
                         Mark Complete
@@ -231,7 +231,7 @@ const AdminDashboard = () => {
 
                     <button
                       onClick={() => setSelectedApplication(app)}
-                      className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 rounded-lg text-sm font-medium transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-transparent text-white hover:bg-white hover:text-black border-2 border-white rounded-lg text-sm font-medium transition-all"
                     >
                       <FaEye />
                       View Details

@@ -7,35 +7,35 @@ const Footer = () => {
       icon: FaInstagram, 
       href: 'https://instagram.com', 
       label: 'Instagram',
-      color: 'hover:text-pink-500'
+      color: 'hover:text-white'
     },
     { 
       icon: FaYoutube, 
       href: 'https://youtube.com', 
       label: 'YouTube',
-      color: 'hover:text-red-500'
+      color: 'hover:text-white'
     },
     { 
       icon: FaGithub, 
       href: 'https://github.com', 
       label: 'GitHub',
-      color: 'hover:text-gray-300'
+      color: 'hover:text-white'
     },
   ];
 
   return (
-    <footer className="glass-dark border-t border-white/10 mt-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <footer className="bg-black border-t border-white/10 mt-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
-        <div className="flex flex-col items-center space-y-6">
+        <div className="flex flex-col items-center space-y-8">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-2xl sm:text-3xl font-bold gradient-text"
+            className="text-3xl sm:text-4xl font-serif font-bold text-white tracking-tight"
           >
-            Kavin Creative Hub
+            KAVIN
           </motion.div>
 
           {/* Social Links */}
@@ -53,7 +53,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
 
-                className={`p-3 glass rounded-full transition-colors ${social.color}`}
+                className={`p-3 border border-white/20 hover:border-white transition-all ${social.color}`}
                 aria-label={social.label}
               >
                 <social.icon size={20} />
@@ -89,7 +89,7 @@ const Footer = () => {
             </p>
             <span className="hidden sm:block">•</span>
             <p className="flex items-center gap-1">
-              Built with <FaHeart className="text-red-500 inline animate-pulse" /> using React, Flask & PostgreSQL
+              Built with <FaHeart className="text-white inline animate-pulse" /> using React, Flask & PostgreSQL
             </p>
           </motion.div>
 
@@ -104,7 +104,7 @@ const Footer = () => {
             {['React', 'Flask', 'PostgreSQL', 'Tailwind CSS', 'Framer Motion'].map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1 text-xs glass rounded-full text-gray-300"
+                className="px-4 py-1 text-xs border border-white/20 uppercase tracking-wider text-gray-400"
               >
                 {tech}
               </span>

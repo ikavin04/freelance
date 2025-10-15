@@ -45,7 +45,7 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass-dark shadow-lg' : 'bg-transparent'
+        scrolled ? 'bg-black/90 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,9 +53,9 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <motion.div
-                className="text-2xl sm:text-3xl font-bold gradient-text"
+                className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight"
             >
-              Kavin
+              KAVIN
             </motion.div>
           </Link>
 
@@ -66,13 +66,13 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm lg:text-base font-medium transition-colors relative group ${
-                  isActive(link.path) ? 'text-primary-400' : 'text-gray-300 hover:text-white'
+                className={`text-sm uppercase tracking-wider font-medium transition-colors relative group ${
+                  isActive(link.path) ? 'text-white' : 'text-gray-400 hover:text-white'
                 }`}
               >
                 {link.label}
                 <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary-400 to-accent-400 transition-all duration-300 ${
+                  className={`absolute -bottom-1 left-0 h-px bg-white transition-all duration-300 ${
                     isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}
                 />
@@ -86,17 +86,17 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/admin"
-                      className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all flex items-center gap-2"
+                      className="px-6 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
                     >
-                      <FaUser className="text-sm" />
-                      Admin Dashboard
+                      <FaUser className="text-xs" />
+                      Dashboard
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium hover:bg-red-600/30 transition-all flex items-center gap-2"
+                      className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
                     >
-                      <FaSignOutAlt className="text-sm" />
-                      Logout
+                      <FaSignOutAlt className="text-xs" />
+                      Exit
                     </button>
                   </>
                 ) : (
@@ -104,22 +104,22 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/apply"
-                      className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium hover:shadow-lg hover:shadow-primary-500/50 transition-all"
+                      className="px-6 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
                     >
                       Apply Now
                     </Link>
                     <Link
                       to="/my-applications"
-                      className="px-4 py-2 glass rounded-lg font-medium hover:bg-white/20 transition-all flex items-center gap-2"
+                      className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
                     >
-                      <FaUser className="text-sm" />
-                      My Projects
+                      <FaUser className="text-xs" />
+                      Projects
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium hover:bg-red-600/30 transition-all flex items-center gap-2"
+                      className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
                     >
-                      <FaSignOutAlt className="text-sm" />
+                      <FaSignOutAlt className="text-xs" />
                       Logout
                     </button>
                   </>
@@ -129,13 +129,13 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  className="px-4 py-2 glass rounded-lg font-medium hover:bg-white/20 transition-all"
+                  className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium hover:shadow-lg hover:shadow-primary-500/50 transition-all"
+                  className="px-6 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
                 >
                   Get Started
                 </Link>
@@ -146,9 +146,9 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg glass hover:bg-white/20 transition-all"
+            className="md:hidden p-2 border border-white/20 hover:border-white transition-all"
           >
-            {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
           </button>
         </div>
 
@@ -159,7 +159,7 @@ const Navbar = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden glass-dark rounded-lg mt-2 mb-4 overflow-hidden"
+              className="md:hidden bg-black border-t border-white/10 mt-2 mb-4 overflow-hidden"
             >
               <div className="flex flex-col space-y-2 p-4">
                 {/* Only show navigation links if user is not an admin */}
@@ -168,10 +168,10 @@ const Navbar = () => {
                     key={link.path}
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                    className={`px-4 py-3 border-b border-white/5 font-medium uppercase tracking-wider text-xs transition-all ${
                       isActive(link.path)
-                        ? 'bg-primary-600 text-white'
-                        : 'text-gray-300 hover:bg-white/10'
+                        ? 'bg-white text-black'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
                     }`}
                   >
                     {link.label}
@@ -186,20 +186,20 @@ const Navbar = () => {
                         <Link
                           to="/admin"
                           onClick={() => setIsOpen(false)}
-                          className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-medium text-center flex items-center justify-center gap-2"
+                          className="px-6 py-3 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
                         >
-                          <FaUser className="text-sm" />
-                          Admin Dashboard
+                          <FaUser className="text-xs" />
+                          Dashboard
                         </Link>
                         <button
                           onClick={() => {
                             handleLogout();
                             setIsOpen(false);
                           }}
-                          className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium flex items-center justify-center gap-2"
+                          className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
                         >
-                          <FaSignOutAlt className="text-sm" />
-                          Logout
+                          <FaSignOutAlt className="text-xs" />
+                          Exit
                         </button>
                       </>
                     ) : (
@@ -208,26 +208,26 @@ const Navbar = () => {
                         <Link
                           to="/apply"
                           onClick={() => setIsOpen(false)}
-                          className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium text-center"
+                          className="px-6 py-3 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
                         >
                           Apply Now
                         </Link>
                         <Link
                           to="/my-applications"
                           onClick={() => setIsOpen(false)}
-                          className="px-4 py-2 glass rounded-lg font-medium text-center flex items-center justify-center gap-2"
+                          className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
                         >
-                          <FaUser className="text-sm" />
-                          My Projects
+                          <FaUser className="text-xs" />
+                          Projects
                         </Link>
                         <button
                           onClick={() => {
                             handleLogout();
                             setIsOpen(false);
                           }}
-                          className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium flex items-center justify-center gap-2"
+                          className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
                         >
-                          <FaSignOutAlt className="text-sm" />
+                          <FaSignOutAlt className="text-xs" />
                           Logout
                         </button>
                       </>
@@ -238,14 +238,14 @@ const Navbar = () => {
                     <Link
                       to="/login"
                       onClick={() => setIsOpen(false)}
-                      className="px-4 py-2 glass rounded-lg font-medium text-center"
+                      className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs"
                     >
                       Login
                     </Link>
                     <Link
                       to="/register"
                       onClick={() => setIsOpen(false)}
-                      className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium text-center"
+                      className="px-6 py-3 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
                     >
                       Get Started
                     </Link>

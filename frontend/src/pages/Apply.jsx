@@ -95,16 +95,16 @@ const Apply = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200 }}
-              className="w-20 h-20 rounded-full bg-gradient-to-br from-primary-600 to-accent-600 flex items-center justify-center mx-auto mb-4 glow-purple"
+              className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center mx-auto mb-4"
             >
               <FaPaperPlane className="text-3xl" />
             </motion.div>
-            <h1 className="text-3xl sm:text-4xl font-bold mb-2">
-              Submit Project <span className="gradient-text">Proposal</span>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-2 font-serif">
+              Submit Project <span className="text-white">Proposal</span>
             </h1>
             <p className="text-gray-400">Complete the form below to begin your project consultation</p>
-            <div className="mt-4 inline-block px-4 py-2 glass rounded-full text-sm">
-              <span className="text-green-400">Complimentary consultation included</span>
+            <div className="mt-4 inline-block px-4 py-2 glass rounded-full text-sm border border-white/20">
+              <span className="text-white">Complimentary consultation included</span>
             </div>
           </div>
 
@@ -113,10 +113,10 @@ const Apply = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="glass p-4 rounded-xl mb-6"
+            className="glass p-4 rounded-xl mb-6 border border-white/20"
           >
             <p className="text-gray-300">
-              Welcome, <span className="text-primary-400 font-semibold">{user?.name}</span>!
+              Welcome, <span className="text-white font-semibold">{user?.name}</span>!
             </p>
           </motion.div>
 
@@ -137,7 +137,7 @@ const Apply = () => {
                   value={formData.client_name}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="Your name"
                 />
               </div>
@@ -158,7 +158,7 @@ const Apply = () => {
                   value={formData.city}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="New York"
                 />
               </div>
@@ -178,7 +178,7 @@ const Apply = () => {
                   value={formData.service_type}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all appearance-none cursor-pointer"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all appearance-none cursor-pointer"
                 >
                   <option value="" disabled>Select a service</option>
                   {services.map((service) => (
@@ -202,7 +202,7 @@ const Apply = () => {
               transition={{ delay: 0.6 }}
             >
               <label className="block text-sm font-medium mb-2">
-                Days to Complete <span className="text-red-400">(Minimum: 3 days)</span>
+                Days to Complete <span className="text-white">(Minimum: 3 days)</span>
               </label>
               <div className="relative">
                 <FaCalendarAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -213,7 +213,7 @@ const Apply = () => {
                   onChange={handleChange}
                   required
                   min="3"
-                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="3"
                 />
               </div>
@@ -227,10 +227,10 @@ const Apply = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="glass p-4 rounded-xl border border-primary-500/30"
+              className="glass p-4 rounded-xl border-2 border-white/20"
             >
               <p className="text-sm text-gray-300">
-                <span className="text-primary-400 font-semibold">Note:</span> This is a free application. 
+                <span className="text-white font-semibold">Note:</span> This is a free application. 
                 Payment integration will be added in future updates. Once submitted, we'll review your 
                 request and get back to you soon!
               </p>
@@ -243,7 +243,7 @@ const Apply = () => {
               transition={{ delay: 0.8 }}
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-gradient-to-r from-primary-600 to-accent-600 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-4 bg-white text-black rounded-xl font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -268,7 +268,7 @@ const Apply = () => {
           >
             <button
               onClick={() => navigate('/my-applications')}
-              className="text-primary-400 hover:text-primary-300 font-medium text-sm"
+              className="text-white hover:text-gray-300 font-medium text-sm"
             >
               View My Applications →
             </button>

@@ -86,11 +86,11 @@ const Register = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200 }}
-              className="w-20 h-20 rounded-full bg-gradient-to-br from-primary-600 to-accent-600 flex items-center justify-center mx-auto mb-4 glow-purple"
+              className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center mx-auto mb-4"
             >
               <FaUser className="text-3xl" />
             </motion.div>
-            <h1 className="text-3xl font-bold mb-2">Create Account</h1>
+            <h1 className="text-3xl font-bold mb-2 font-serif">Create Account</h1>
             <p className="text-gray-400">Join Kavin Creative Hub today</p>
           </div>
 
@@ -107,7 +107,7 @@ const Register = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="John Doe"
                 />
               </div>
@@ -124,7 +124,7 @@ const Register = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="john@example.com"
                 />
               </div>
@@ -142,7 +142,7 @@ const Register = () => {
                   onChange={handleChange}
                   required
                   minLength={6}
-                  className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="••••••••"
                 />
                 <button
@@ -167,7 +167,7 @@ const Register = () => {
                   onChange={handleChange}
                   required
                   minLength={6}
-                  className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="••••••••"
                 />
                 <button
@@ -184,7 +184,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-600 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-white text-black rounded-xl font-semibold hover:bg-transparent hover:text-white border-2 border-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -200,7 +200,7 @@ const Register = () => {
           {/* Footer */}
           <p className="text-center text-gray-400 mt-6">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-400 hover:text-primary-300 font-medium">
+            <Link to="/login" className="text-white hover:text-gray-300 font-medium">
               Login
             </Link>
           </p>
@@ -223,11 +223,11 @@ const Register = () => {
               className="glass-dark p-8 rounded-3xl max-w-md w-full"
             >
               <div className="text-center mb-6">
-                <FaCheckCircle className="text-5xl text-green-500 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold mb-2">Verify Your Email</h2>
+                <FaCheckCircle className="text-5xl text-white mx-auto mb-4" />
+                <h2 className="text-2xl font-bold mb-2 font-serif">Verify Your Email</h2>
                 <p className="text-gray-400">
                   We've sent a 6-digit OTP to <br />
-                  <span className="text-primary-400">{registeredEmail}</span>
+                  <span className="text-white font-semibold">{registeredEmail}</span>
                 </p>
               </div>
 
@@ -240,7 +240,7 @@ const Register = () => {
                     onChange={(e) => setOtp(e.target.value)}
                     required
                     maxLength={6}
-                    className="w-full px-4 py-3 glass rounded-xl text-center text-2xl tracking-widest focus:ring-2 focus:ring-primary-500 transition-all"
+                    className="w-full px-4 py-3 glass rounded-xl text-center text-2xl tracking-widest focus:ring-2 focus:ring-white transition-all"
                     placeholder="000000"
                   />
                 </div>
@@ -248,7 +248,7 @@ const Register = () => {
                 <button
                   type="submit"
                   disabled={otpLoading}
-                  className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-600 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+                  className="w-full py-3 bg-white text-black rounded-xl font-semibold hover:bg-transparent hover:text-white border-2 border-white transition-all disabled:opacity-50"
                 >
                   {otpLoading ? 'Verifying...' : 'Verify OTP'}
                 </button>
@@ -256,7 +256,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={handleResendOTP}
-                  className="w-full py-2 text-primary-400 hover:text-primary-300 font-medium"
+                  className="w-full py-2 text-white hover:text-gray-300 font-medium"
                 >
                   Resend OTP
                 </button>

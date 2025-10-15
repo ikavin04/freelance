@@ -23,10 +23,13 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-            About <span className="gradient-text">Me</span>
+          <div className="inline-block px-4 py-1 border border-white/20 rounded-full mb-6">
+            <span className="text-xs uppercase tracking-widest text-gray-400">About</span>
+          </div>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold mb-6">
+            The <span className="gradient-text">Professional</span>
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary-400 to-accent-400 mx-auto rounded-full" />
+          <div className="w-32 h-px bg-white mx-auto" />
         </motion.div>
 
         {/* Main Content */}
@@ -36,19 +39,19 @@ const About = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="glass-dark p-8 sm:p-12 rounded-3xl mb-12"
+            className="border-2 border-white/10 p-12 sm:p-16 mb-12"
           >
             <div className="flex flex-col items-center mb-8">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.4, type: 'spring', stiffness: 200 }}
-                className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-600 to-accent-600 flex items-center justify-center text-5xl font-bold mb-4 glow-purple"
+                className="w-32 h-32 border-2 border-white flex items-center justify-center text-5xl font-serif font-bold mb-6"
               >
                 K
               </motion.div>
-              <h2 className="text-3xl font-bold mb-2">Kavin</h2>
-              <p className="text-primary-400 text-lg">Creative Developer & Designer</p>
+              <h2 className="text-4xl font-serif font-bold mb-2">KAVIN</h2>
+              <p className="text-gray-400 text-lg uppercase tracking-widest text-sm">Creative Developer & Designer</p>
             </div>
 
             <motion.div
@@ -59,7 +62,7 @@ const About = () => {
               className="text-center space-y-4"
             >
               <p className="text-gray-300 text-lg leading-relaxed">
-                Hi, I'm <span className="text-primary-400 font-semibold">Kavin</span> — a passionate creator and developer 
+                Hi, I'm <span className="text-white font-semibold">Kavin</span> — a passionate creator and developer 
                 helping brands, creators, and startups design visuals, build websites, and bring projects to life with 
                 modern technology and creativity.
               </p>
@@ -78,24 +81,24 @@ const About = () => {
             variants={scrollAnimationVariants.staggerContainer}
             className="mb-12"
           >
-            <h3 className="text-2xl sm:text-3xl font-bold text-center mb-8">
+            <h3 className="text-3xl sm:text-4xl font-serif font-bold text-center mb-12">
               Core <span className="gradient-text">Expertise</span>
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 border border-white/10">
               {skills.map((skill, index) => (
                 <motion.div
                   key={index}
                   variants={scrollAnimationVariants.fadeInUp}
                   transition={{ delay: index * 0.1 }}
-                  className="glass p-6 rounded-2xl hover:bg-white/10 transition-colors"
+                  className="border border-white/10 p-8 hover:bg-white/[0.02] transition-colors"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-600 to-accent-600 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 border-2 border-white/20 flex items-center justify-center flex-shrink-0">
                       <skill.icon className="text-2xl" />
                     </div>
                     <div>
                       <h4 className="text-xl font-semibold mb-2">{skill.title}</h4>
-                      <p className="text-gray-400 text-sm">{skill.description}</p>
+                      <p className="text-gray-500 text-sm">{skill.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -109,9 +112,9 @@ const About = () => {
             initial="hidden"
             animate={missionVisible ? "visible" : "hidden"}
             variants={scrollAnimationVariants.fadeInUp}
-            className="glass-dark p-8 sm:p-12 rounded-3xl mb-12 text-center"
+            className="border-2 border-white/10 p-12 sm:p-16 mb-12 text-center"
           >
-            <h3 className="text-2xl sm:text-3xl font-bold mb-4">
+            <h3 className="text-3xl sm:text-4xl font-serif font-bold mb-6">
               Professional <span className="gradient-text">Commitment</span>
             </h3>
             <p className="text-gray-300 text-lg leading-relaxed">

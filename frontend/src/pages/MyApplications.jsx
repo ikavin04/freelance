@@ -81,9 +81,9 @@ const MyApplications = () => {
           transition={{ delay: 0.2 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
         >
-          <div className="glass p-6 rounded-2xl">
+          <div className="glass border-2 border-white/20 p-6 rounded-2xl">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-600 to-accent-600 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl border-2 border-white flex items-center justify-center">
                 <FaClipboardList className="text-2xl" />
               </div>
               <div>
@@ -93,22 +93,22 @@ const MyApplications = () => {
             </div>
           </div>
 
-          <div className="glass p-6 rounded-2xl">
+          <div className="glass border-2 border-white/20 p-6 rounded-2xl">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600 to-teal-600 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl border-2 border-white flex items-center justify-center">
                 <FaClock className="text-2xl" />
               </div>
               <div>
-                <div className="text-3xl font-bold text-yellow-400">Pending</div>
+                <div className="text-3xl font-bold text-white">Pending</div>
                 <div className="text-gray-400 text-sm">Under Review</div>
               </div>
             </div>
           </div>
 
-          <div className="glass p-6 rounded-2xl sm:col-span-2 lg:col-span-1">
+          <div className="glass border-2 border-white/20 p-6 rounded-2xl sm:col-span-2 lg:col-span-1">
             <button
               onClick={() => navigate('/apply')}
-              className="w-full h-full flex items-center justify-center gap-2 text-primary-400 hover:text-primary-300 font-semibold transition-all group"
+              className="w-full h-full flex items-center justify-center gap-2 text-white hover:text-gray-300 font-semibold transition-all group"
             >
               <FaPlus className="group-hover:rotate-90 transition-transform" />
               New Application
@@ -131,7 +131,7 @@ const MyApplications = () => {
             </p>
             <button
               onClick={() => navigate('/apply')}
-              className="px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 rounded-xl font-semibold hover:opacity-90 transition-opacity"
+              className="px-6 py-3 bg-white text-black rounded-xl font-semibold hover:bg-transparent hover:text-white border-2 border-white transition-all"
             >
               Apply for a Project
             </button>
@@ -162,15 +162,15 @@ const MyApplications = () => {
                 {/* Details */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-gray-300">
-                    <FaMapMarkerAlt className="text-primary-400" />
+                    <FaMapMarkerAlt className="text-white" />
                     <span>{app.city}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-300">
-                    <FaClock className="text-accent-400" />
+                    <FaClock className="text-white" />
                     <span>{app.days} days to complete</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-300">
-                    <FaCalendarAlt className="text-green-400" />
+                    <FaCalendarAlt className="text-white" />
                     <span>Submitted on {formatDate(app.created_at)}</span>
                   </div>
                 </div>
@@ -179,7 +179,7 @@ const MyApplications = () => {
                 <div className="mt-4 pt-4 border-t border-white/10">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-400">Application ID</span>
-                    <span className="text-primary-400 font-mono">#{app.id.toString().padStart(4, '0')}</span>
+                    <span className="text-white font-mono">#{app.id.toString().padStart(4, '0')}</span>
                   </div>
                 </div>
               </motion.div>
@@ -193,12 +193,12 @@ const MyApplications = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="glass p-6 rounded-2xl text-center"
+            className="glass border-2 border-white/20 p-6 rounded-2xl text-center"
           >
             <p className="text-gray-300">
-              <span className="text-primary-400 font-semibold">Tip:</span> All applications are 
+              <span className="text-white font-semibold">Tip:</span> All applications are 
               currently free! We'll review your submissions and contact you via email at{' '}
-              <span className="text-accent-400">{user?.email}</span>
+              <span className="text-white">{user?.email}</span>
             </p>
           </motion.div>
         )}

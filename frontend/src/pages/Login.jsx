@@ -86,11 +86,11 @@ const Login = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200 }}
-              className="w-20 h-20 rounded-full bg-gradient-to-br from-primary-600 to-accent-600 flex items-center justify-center mx-auto mb-4 glow-purple"
+              className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center mx-auto mb-4"
             >
               <FaSignInAlt className="text-3xl" />
             </motion.div>
-            <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
+            <h1 className="text-3xl font-bold mb-2 font-serif">Welcome Back</h1>
             <p className="text-gray-400">Login to your account</p>
           </div>
 
@@ -107,7 +107,7 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="john@example.com"
                 />
               </div>
@@ -124,7 +124,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="w-full pl-12 pr-12 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all"
                   placeholder="••••••••"
                 />
                 <button
@@ -141,7 +141,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-primary-600 to-accent-600 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-white text-black rounded-xl font-semibold hover:bg-transparent hover:text-white border-2 border-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -160,7 +160,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowAdminLogin(true)}
-                className="text-gray-400 hover:text-primary-400 text-sm transition-colors"
+                className="text-gray-400 hover:text-white text-sm transition-colors"
               >
                 Admin Login
               </button>
@@ -169,7 +169,7 @@ const Login = () => {
                 <button
                   onClick={handleAdminLogin}
                   disabled={adminLoading || !formData.email || !formData.password}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-colors flex items-center gap-2 mx-auto"
+                  className="px-4 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white disabled:opacity-50 disabled:cursor-not-allowed text-sm rounded-lg transition-all flex items-center gap-2 mx-auto"
                 >
                   {adminLoading ? (
                     <>
@@ -197,7 +197,7 @@ const Login = () => {
           {/* Footer */}
           <p className="text-center text-gray-400 mt-6">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary-400 hover:text-primary-300 font-medium">
+            <Link to="/register" className="text-white hover:text-gray-300 font-medium">
               Register
             </Link>
           </p>
@@ -207,10 +207,10 @@ const Login = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mt-6 p-4 glass rounded-xl"
+            className="mt-6 p-4 glass rounded-xl border border-white/20"
           >
             <p className="text-sm text-gray-400 text-center">
-              <span className="text-primary-400 font-medium">First time here?</span> 
+              <span className="text-white font-medium">First time here?</span> 
               <br />
               Register to start applying for free projects!
             </p>
