@@ -24,10 +24,12 @@ def submit_application():
         client_name = data.get('client_name', '').strip()
         city = data.get('city', '').strip()
         service_type = data.get('service_type', '').strip()
+        project_description = data.get('project_description', '').strip()
+        reference_images = data.get('reference_images', '').strip()
         days = data.get('days')
         
-        if not all([client_name, city, service_type, days]):
-            return jsonify({'message': 'All fields are required'}), 400
+        if not all([client_name, city, service_type, project_description, days]):
+            return jsonify({'message': 'All required fields must be filled'}), 400
         
         # Validate service type
         valid_services = ['Video Editing', 'Poster Design', 'Website Creation', 'App Development']
@@ -42,11 +44,18 @@ def submit_application():
         except ValueError:
             return jsonify({'message': 'Days must be a valid number'}), 400
         
+        # Validate project description word count (max 10,000 words)
+        word_count = len(project_description.split())
+        if word_count > 10000:
+            return jsonify({'message': 'Project description cannot exceed 10,000 words'}), 400
+        
         # Create new application
         new_application = Application(
             client_name=client_name,
             city=city,
             service_type=service_type,
+            project_description=project_description,
+            reference_images=reference_images if reference_images else None,
             days=days,
             user_email=current_user_email
         )

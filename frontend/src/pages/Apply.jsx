@@ -2,19 +2,23 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import Confetti from 'react-confetti';
-import { FaUser, FaCity, FaBriefcase, FaCalendarAlt, FaPaperPlane } from 'react-icons/fa';
+import { FaUser, FaCity, FaBriefcase, FaCalendarAlt, FaPaperPlane, FaFileAlt, FaImage } from 'react-icons/fa';
 import { applicationAPI, authHelpers } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Apply = () => {
   const navigate = useNavigate();
   const user = authHelpers.getUser();
+  const { theme } = useTheme();
   const [showConfetti, setShowConfetti] = useState(false);
   const [formData, setFormData] = useState({
     client_name: user?.name || '',
     city: '',
     service_type: '',
-    days: 3
+    project_description: '',
+    days: 3,
+    reference_images: ''
   });
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +31,22 @@ const Apply = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Count words for project description
+    if (name === 'project_description') {
+      const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+      if (wordCount > 10000) {
+        toast.warning('Project description cannot exceed 10,000 words!');
+        return;
+      }
+    }
+    
     setFormData({ ...formData, [name]: value });
+  };
+
+  const getWordCount = (text) => {
+    if (!text || text.trim() === '') return 0;
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
   };
 
   const handleSubmit = async (e) => {
@@ -59,7 +78,9 @@ const Apply = () => {
         client_name: user?.name || '',
         city: '',
         service_type: '',
-        days: 3
+        project_description: '',
+        days: 3,
+        reference_images: ''
       });
 
       // Navigate to applications after delay
@@ -87,8 +108,7 @@ const Apply = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="glass-dark p-8 sm:p-10 rounded-3xl"
-          style={{ boxShadow: '0 8px 32px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.15)' }}
+          className="glass-dark p-8 sm:p-10 rounded-3xl glow-golden-strong"
         >
           {/* Header with Golden Accent */}
           <div className="text-center mb-8">
@@ -96,8 +116,7 @@ const Apply = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200 }}
-              className="w-20 h-20 rounded-full border-4 flex items-center justify-center mx-auto mb-4"
-              style={{ borderColor: 'rgba(212, 175, 55, 0.4)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.2)' }}
+              className="w-20 h-20 rounded-full border-4 border-golden-glow flex items-center justify-center mx-auto mb-4"
             >
               <FaPaperPlane className="text-3xl gradient-text-golden" />
             </motion.div>
@@ -105,7 +124,7 @@ const Apply = () => {
               Submit Project <span className="gradient-text-golden">Proposal</span>
             </h1>
             <p className="text-gray-400">Complete the form below to begin your project consultation</p>
-            <div className="mt-4 inline-block px-4 py-2 glass rounded-full text-sm border" style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 15px rgba(212, 175, 55, 0.1)' }}>
+            <div className="mt-4 inline-block px-4 py-2 glass rounded-full text-sm border border-golden-glow">
               <span className="gradient-text-golden">Complimentary consultation included</span>
             </div>
           </div>
@@ -130,7 +149,7 @@ const Apply = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <label className="block text-sm font-medium mb-2">Client Name</label>
+              <label className="block text-sm font-medium mb-2">Client Name <span className="text-red-400">*</span></label>
               <div className="relative">
                 <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
@@ -151,7 +170,7 @@ const Apply = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <label className="block text-sm font-medium mb-2">City</label>
+              <label className="block text-sm font-medium mb-2">City <span className="text-red-400">*</span></label>
               <div className="relative">
                 <FaCity className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
@@ -172,7 +191,7 @@ const Apply = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <label className="block text-sm font-medium mb-2">Type of Service</label>
+              <label className="block text-sm font-medium mb-2">Type of Service <span className="text-red-400">*</span></label>
               <div className="relative">
                 <FaBriefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10" />
                 <select
@@ -182,9 +201,11 @@ const Apply = () => {
                   required
                   className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" disabled>Select a service</option>
+                  <option value="" disabled className={theme === 'light' ? 'bg-white text-black' : 'bg-gray-900 text-white'}>
+                    Select a service
+                  </option>
                   {services.map((service) => (
-                    <option key={service} value={service} className="bg-gray-900">
+                    <option key={service} value={service} className={theme === 'light' ? 'bg-white text-black' : 'bg-gray-900 text-white'}>
                       {service}
                     </option>
                   ))}
@@ -197,14 +218,43 @@ const Apply = () => {
               </div>
             </motion.div>
 
-            {/* Days to Complete */}
+            {/* Project Description */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 }}
             >
               <label className="block text-sm font-medium mb-2">
-                Days to Complete <span className="text-white">(Minimum: 3 days)</span>
+                Project Description <span className="text-red-400">*</span>
+                <span className="text-gray-400 text-xs ml-2">
+                  ({getWordCount(formData.project_description)}/10,000 words)
+                </span>
+              </label>
+              <div className="relative">
+                <FaFileAlt className="absolute left-4 top-4 text-gray-400" />
+                <textarea
+                  name="project_description"
+                  value={formData.project_description}
+                  onChange={handleChange}
+                  required
+                  rows="6"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all resize-vertical"
+                  placeholder="Describe your project in detail... What are your goals, requirements, target audience, style preferences, etc."
+                />
+              </div>
+              <p className="text-xs text-gray-400 mt-2">
+                Please provide a detailed description of your project (maximum 10,000 words)
+              </p>
+            </motion.div>
+
+            {/* Days to Complete */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.7 }}
+            >
+              <label className="block text-sm font-medium mb-2">
+                Days to Complete <span className="text-red-400">*</span> <span className="text-gray-400">(Minimum: 3 days)</span>
               </label>
               <div className="relative">
                 <FaCalendarAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -224,17 +274,42 @@ const Apply = () => {
               </p>
             </motion.div>
 
+            {/* Reference Images - Optional */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8 }}
+            >
+              <label className="block text-sm font-medium mb-2">
+                Reference Images <span className="text-gray-400 text-xs">(Optional)</span>
+              </label>
+              <div className="relative">
+                <FaImage className="absolute left-4 top-4 text-gray-400" />
+                <textarea
+                  name="reference_images"
+                  value={formData.reference_images}
+                  onChange={handleChange}
+                  rows="3"
+                  className="w-full pl-12 pr-4 py-3 glass rounded-xl focus:ring-2 focus:ring-white transition-all resize-vertical"
+                  placeholder="Paste image URLs or describe reference materials (e.g., https://example.com/image1.jpg, https://example.com/image2.png)"
+                />
+              </div>
+              <p className="text-xs text-gray-400 mt-2">
+                You can provide links to reference images, inspiration, or similar designs you'd like to achieve
+              </p>
+            </motion.div>
+
             {/* Info Box */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
+              transition={{ delay: 0.9 }}
               className="glass p-4 rounded-xl border-2 border-white/20"
             >
               <p className="text-sm text-gray-300">
-                <span className="text-white font-semibold">Note:</span> This is a free application. 
-                Payment integration will be added in future updates. Once submitted, we'll review your 
-                request and get back to you soon!
+                <span className="text-white font-semibold">Note:</span> Fields marked with <span className="text-red-400">*</span> are mandatory. 
+                This is a free application. Payment integration will be added in future updates. 
+                Once submitted, we'll review your request and get back to you soon!
               </p>
             </motion.div>
 
@@ -242,7 +317,7 @@ const Apply = () => {
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 1.0 }}
               type="submit"
               disabled={loading}
               className="w-full py-4 bg-white text-black rounded-xl font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -265,7 +340,7 @@ const Apply = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
+            transition={{ delay: 1.1 }}
             className="text-center mt-6"
           >
             <button

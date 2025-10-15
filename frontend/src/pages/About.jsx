@@ -23,13 +23,13 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-block px-4 py-1 border rounded-full mb-6" style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 15px rgba(212, 175, 55, 0.1)' }}>
+          <div className="inline-block px-4 py-1 border border-golden-glow rounded-full mb-6">
             <span className="text-xs uppercase tracking-widest gradient-text-golden">About</span>
           </div>
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold mb-6">
             The <span className="gradient-text-golden">Professional</span>
           </h1>
-          <div className="w-32 h-px mx-auto" style={{ background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent)' }} />
+          <div className="w-32 h-px mx-auto divider-golden" />
         </motion.div>
 
         {/* Main Content */}
@@ -39,16 +39,14 @@ const About = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="border-2 p-12 sm:p-16 mb-12 relative"
-            style={{ borderColor: 'rgba(212, 175, 55, 0.2)', boxShadow: '0 0 30px rgba(212, 175, 55, 0.1)' }}
+            className="border-2 border-golden-glow p-12 sm:p-16 mb-12 relative"
           >
             <div className="flex flex-col items-center mb-8">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.4, type: 'spring', stiffness: 200 }}
-                className="w-32 h-32 border-2 flex items-center justify-center text-5xl font-serif font-bold mb-6 gradient-text-golden"
-                style={{ borderColor: 'rgba(212, 175, 55, 0.4)' }}
+                className="w-32 h-32 border-2 border-golden flex items-center justify-center text-5xl font-serif font-bold mb-6 gradient-text-golden"
               >
                 K
               </motion.div>

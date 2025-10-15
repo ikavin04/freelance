@@ -129,7 +129,7 @@ const AdminDashboard = () => {
         >
           <h1 className="text-2xl font-bold mb-2 gradient-text-golden">My Applications</h1>
           <p className="text-gray-400">Manage client project requests</p>
-          <div className="w-24 h-px mt-4" style={{ background: 'linear-gradient(90deg, rgba(212, 175, 55, 0.6), transparent)' }} />
+          <div className="w-24 h-px mt-4 divider-golden" />
         </motion.div>
 
         {/* Applications List */}
@@ -191,10 +191,22 @@ const AdminDashboard = () => {
                         </div>
                       </div>
 
-                      {app.description && (
-                        <p className="text-gray-300 text-sm bg-black/20 p-3 rounded-lg">
-                          "{app.description}"
-                        </p>
+                      {app.project_description && (
+                        <div className="mt-3">
+                          <p className="text-gray-400 text-xs mb-1">Project Description:</p>
+                          <p className="text-gray-300 text-sm bg-black/20 p-3 rounded-lg line-clamp-3">
+                            {app.project_description}
+                          </p>
+                        </div>
+                      )}
+
+                      {app.reference_images && (
+                        <div className="mt-2">
+                          <p className="text-gray-400 text-xs mb-1">Reference Images:</p>
+                          <p className="text-blue-400 text-sm bg-black/20 p-2 rounded-lg truncate">
+                            {app.reference_images}
+                          </p>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -281,6 +293,10 @@ const AdminDashboard = () => {
                     </p>
                   </div>
                   <div>
+                    <label className="text-gray-400 text-sm">Client Name</label>
+                    <p className="font-semibold">{selectedApplication.client_name}</p>
+                  </div>
+                  <div>
                     <label className="text-gray-400 text-sm">Client Email</label>
                     <p className="font-semibold">{selectedApplication.user_email}</p>
                   </div>
@@ -292,18 +308,34 @@ const AdminDashboard = () => {
                     <label className="text-gray-400 text-sm">Timeline</label>
                     <p className="font-semibold">{selectedApplication.days} days</p>
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <label className="text-gray-400 text-sm">Submitted</label>
                     <p className="font-semibold">{formatDate(selectedApplication.created_at)}</p>
                   </div>
                 </div>
 
-                {selectedApplication.description && (
+                {selectedApplication.project_description && (
                   <div>
-                    <label className="text-gray-400 text-sm">Project Description</label>
-                    <p className="mt-2 p-4 bg-black/30 rounded-lg">
-                      {selectedApplication.description}
+                    <label className="text-gray-400 text-sm block mb-2">Project Description</label>
+                    <div className="p-4 bg-black/30 rounded-lg max-h-60 overflow-y-auto">
+                      <p className="whitespace-pre-wrap leading-relaxed">
+                        {selectedApplication.project_description}
+                      </p>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Word count: {selectedApplication.project_description.split(/\s+/).filter(w => w.length > 0).length} words
                     </p>
+                  </div>
+                )}
+
+                {selectedApplication.reference_images && (
+                  <div>
+                    <label className="text-gray-400 text-sm block mb-2">Reference Images</label>
+                    <div className="p-4 bg-black/30 rounded-lg">
+                      <p className="text-blue-400 break-all">
+                        {selectedApplication.reference_images}
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>

@@ -45,8 +45,8 @@ const Home = () => {
         <div className="absolute inset-0 z-0">
           <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-          <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-30" style={{ background: 'radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%)' }} />
-          <div className="absolute bottom-1/3 left-1/4 w-80 h-80 rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%)' }} />
+          <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-30 bg-golden-radial" />
+          <div className="absolute bottom-1/3 left-1/4 w-80 h-80 rounded-full blur-3xl opacity-20 bg-golden-radial-soft" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
         </div>
 
@@ -59,8 +59,8 @@ const Home = () => {
               transition={{ duration: 0.6 }}
               className="mb-8 inline-block"
             >
-              <div className="px-6 py-2 border rounded-full backdrop-blur-sm" style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)' }}>
-                <span className="text-sm font-medium tracking-wider uppercase" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #ffffff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              <div className="px-6 py-2 border border-golden-glow rounded-full backdrop-blur-sm">
+                <span className="text-sm font-medium tracking-wider uppercase gradient-text-golden">
                   Premium Digital Services
                 </span>
               </div>
@@ -90,63 +90,21 @@ const Home = () => {
             >
               <Link
                 to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
-                className="group px-10 py-4 bg-white text-black rounded-none font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 flex items-center gap-3 uppercase tracking-wider"
-                style={{ boxShadow: '0 0 30px rgba(212, 175, 55, 0.2)' }}
+                className="group px-10 py-4 bg-white text-black rounded-none font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 flex items-center gap-3 uppercase tracking-wider glow-golden"
               >
                 Start a Project
                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/services"
-                className="px-10 py-4 bg-transparent text-white border-2 rounded-none font-semibold text-lg hover:border-white transition-all duration-300 uppercase tracking-wider"
-                style={{ borderColor: 'rgba(212, 175, 55, 0.3)', boxShadow: '0 0 15px rgba(212, 175, 55, 0.1)' }}
+                className="px-10 py-4 bg-transparent text-white border-2 border-golden-glow rounded-none font-semibold text-lg hover:border-white transition-all duration-300 uppercase tracking-wider"
               >
                 Explore Services
               </Link>
             </motion.div>
 
-            {/* Elegant Divider */}
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="mt-20 mb-8"
-            >
-              <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-            </motion.div>
-
-            {/* Professional Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16"
-            >
-              {[
-                { number: '100+', label: 'PROJECTS DELIVERED', sublabel: 'Worldwide' },
-                { number: '50+', label: 'SATISFIED CLIENTS', sublabel: 'And Growing' },
-                { number: '4', label: 'CORE SERVICES', sublabel: 'Specialized' },
-                { number: '24/7', label: 'SUPPORT', sublabel: 'Always Available' }
-              ].map((stat, index) => (
-                <div key={index} className="group">
-                  <div className="border-l-2 pl-6 transition-all duration-300" style={{ borderColor: index === 0 || index === 2 ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 255, 255, 0.2)' }}>
-                    <div className="text-4xl sm:text-5xl font-serif font-bold text-white mb-2">
-                      {stat.number}
-                    </div>
-                    <div className="text-xs tracking-widest text-gray-500 font-semibold mb-1 uppercase">
-                      {stat.label}
-                    </div>
-                    <div className="text-xs text-gray-600 uppercase tracking-wide">
-                      {stat.sublabel}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
           </div>
         </div>
-
-
       </section>
 
       {/* Professional Services Section */}
@@ -225,7 +183,7 @@ const Home = () => {
       <section className="py-32 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
         {/* Golden ambient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%)' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-20 bg-golden-radial-medium" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
             ref={ctaRef}
@@ -235,11 +193,11 @@ const Home = () => {
             className="max-w-5xl mx-auto"
           >
             {/* Elegant Border Frame with Golden Corners */}
-            <div className="border-2 border-white/10 p-16 relative" style={{ boxShadow: '0 0 40px rgba(212, 175, 55, 0.1)' }}>
-              <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
-              <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
-              <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
-              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2" style={{ borderColor: 'rgba(212, 175, 55, 0.5)' }} />
+            <div className="border-2 border-white/10 p-16 relative glow-golden-strong">
+              <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-golden" />
+              <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-golden" />
+              <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-golden" />
+              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-golden" />
               
               <div className="text-center">
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold mb-6">
@@ -253,8 +211,7 @@ const Home = () => {
                 </p>
                 <Link
                   to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
-                  className="inline-block px-12 py-5 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 uppercase tracking-widest text-sm font-bold"
-                  style={{ boxShadow: '0 0 30px rgba(212, 175, 55, 0.3)' }}
+                  className="inline-block px-12 py-5 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 uppercase tracking-widest text-sm font-bold glow-golden-strong"
                 >
                   Initiate Collaboration
                 </Link>

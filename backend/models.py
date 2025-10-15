@@ -49,6 +49,8 @@ class Application(db.Model):
     client_name = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=False)
     service_type = db.Column(db.String(100), nullable=False)
+    project_description = db.Column(db.Text, nullable=False)
+    reference_images = db.Column(db.Text, nullable=True)
     days = db.Column(db.Integer, nullable=False)
     user_email = db.Column(db.String(150), db.ForeignKey('users.email'), nullable=False)
     status = db.Column(db.String(20), default='pending')  # pending, accepted, rejected, completed
@@ -60,6 +62,8 @@ class Application(db.Model):
             'client_name': self.client_name,
             'city': self.city,
             'service_type': self.service_type,
+            'project_description': self.project_description,
+            'reference_images': self.reference_images,
             'days': self.days,
             'user_email': self.user_email,
             'status': self.status,

@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaSignOutAlt, FaSun, FaMoon } from 'react-icons/fa';
 import { authHelpers } from '../services/api';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -45,22 +47,15 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-black/90 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
+        scrolled ? 'nav-scrolled backdrop-blur-md border-b border-white/10' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
-          {/* Logo with Golden Accent */}
+          {/* Logo with Theme-aware Accent */}
           <Link to="/" className="flex items-center space-x-2 group">
             <motion.div
-                className="text-2xl sm:text-3xl font-serif font-bold tracking-tight transition-all duration-300"
-                style={{ 
-                  background: 'linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #ffffff 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundSize: '200% 100%',
-                  animation: 'shimmer 3s ease-in-out infinite'
-                }}
+                className="text-2xl sm:text-3xl font-serif font-bold tracking-tight transition-all duration-300 gradient-text-golden"
             >
               KAVIN
             </motion.div>
@@ -68,6 +63,15 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 border-2 border-white/20 hover:border-white transition-all rounded-lg"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <FaSun size={16} /> : <FaMoon size={16} />}
+            </button>
+
             {/* Only show navigation links if user is not an admin */}
             {!user?.is_admin && navLinks.map((link) => (
               <Link
@@ -150,13 +154,25 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 border border-white/20 hover:border-white transition-all"
-          >
-            {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-          </button>
+          {/* Mobile Menu & Theme Toggle */}
+          <div className="flex items-center gap-3 md:hidden">
+            {/* Theme Toggle Button - Mobile */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 border-2 border-white/20 hover:border-white transition-all rounded-lg"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <FaSun size={16} /> : <FaMoon size={16} />}
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 border border-white/20 hover:border-white transition-all"
+            >
+              {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}

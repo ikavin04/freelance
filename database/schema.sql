@@ -31,8 +31,11 @@ CREATE TABLE IF NOT EXISTS applications (
     client_name VARCHAR(100) NOT NULL,
     city VARCHAR(100) NOT NULL,
     service_type VARCHAR(100) NOT NULL,
+    project_description TEXT NOT NULL,
+    reference_images TEXT,
     days INTEGER NOT NULL CHECK (days >= 3),
     user_email VARCHAR(150) NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_email) REFERENCES users(email) ON DELETE CASCADE
 );

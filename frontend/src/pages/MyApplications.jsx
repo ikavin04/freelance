@@ -72,7 +72,7 @@ const MyApplications = () => {
           <p className="text-gray-400 text-lg">
             Track all your project submissions in one place
           </p>
-          <div className="w-32 h-px mx-auto mt-6" style={{ background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent)' }} />
+          <div className="w-32 h-px mx-auto mt-6 divider-golden" />
         </motion.div>
 
         {/* Stats */}
@@ -176,6 +176,24 @@ const MyApplications = () => {
                     <FaCalendarAlt className="text-white" />
                     <span>Submitted on {formatDate(app.created_at)}</span>
                   </div>
+                  
+                  {app.project_description && (
+                    <div className="mt-3 pt-3 border-t border-white/10">
+                      <p className="text-gray-400 text-xs mb-1">Project Description:</p>
+                      <p className="text-gray-300 text-sm line-clamp-2">
+                        {app.project_description}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {app.reference_images && (
+                    <div className="mt-2">
+                      <p className="text-gray-400 text-xs mb-1">Reference Images Provided</p>
+                      <p className="text-blue-400 text-xs truncate">
+                        {app.reference_images}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Footer */}
