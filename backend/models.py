@@ -51,6 +51,7 @@ class Application(db.Model):
     service_type = db.Column(db.String(100), nullable=False)
     days = db.Column(db.Integer, nullable=False)
     user_email = db.Column(db.String(150), db.ForeignKey('users.email'), nullable=False)
+    status = db.Column(db.String(20), default='pending')  # pending, accepted, rejected, completed
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     def to_dict(self):
@@ -61,5 +62,6 @@ class Application(db.Model):
             'service_type': self.service_type,
             'days': self.days,
             'user_email': self.user_email,
+            'status': self.status,
             'created_at': self.created_at.isoformat()
         }

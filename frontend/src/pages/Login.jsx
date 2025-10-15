@@ -14,6 +14,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [adminLoading, setAdminLoading] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,8 +42,15 @@ const Login = () => {
     }
   };
 
-  const handleAdminLogin = async () => {
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
     if (adminLoading) return;
+
+    // Check if admin credentials are entered
+    if (formData.email !== 'vkavin2006@gmail.com' || formData.password !== 'Kavin2006@') {
+      toast.error('Invalid admin credentials');
+      return;
+    }
 
     setAdminLoading(true);
     try {
@@ -146,29 +154,44 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Admin Login */}
-          <div className="mt-6 pt-6 border-t border-white/10">
-            <button
-              type="button"
-              onClick={handleAdminLogin}
-              disabled={adminLoading}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {adminLoading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Authenticating...
-                </>
-              ) : (
-                <>
-                  <FaUserShield className="text-lg" />
-                  Admin Login
-                </>
-              )}
-            </button>
-            <p className="text-center text-gray-500 text-xs mt-2">
-              Admin access only
-            </p>
+          {/* Admin Login Link */}
+          <div className="mt-4 text-center">
+            {!showAdminLogin ? (
+              <button
+                type="button"
+                onClick={() => setShowAdminLogin(true)}
+                className="text-gray-400 hover:text-primary-400 text-sm transition-colors"
+              >
+                Admin Login
+              </button>
+            ) : (
+              <div className="mt-2">
+                <button
+                  onClick={handleAdminLogin}
+                  disabled={adminLoading || !formData.email || !formData.password}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-colors flex items-center gap-2 mx-auto"
+                >
+                  {adminLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Authenticating...
+                    </>
+                  ) : (
+                    <>
+                      <FaUserShield className="text-sm" />
+                      Login as Admin
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowAdminLogin(false)}
+                  className="text-gray-500 hover:text-gray-300 text-xs mt-2 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Footer */}

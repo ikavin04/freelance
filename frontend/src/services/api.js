@@ -50,20 +50,9 @@ export const authAPI = {
 // Application API calls
 export const applicationAPI = {
   submitApplication: (data) => api.post('/apply', data),
-    getApplications: async () => {
-    const token = getToken();
-    return axios.get(`${API_URL}/applications`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  },
-
-  getAllApplications: async () => {
-    const token = getToken();
-    return axios.get(`${API_URL}/applications/all`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  },
+  getApplications: () => api.get('/applications'),
   getAllApplications: () => api.get('/applications/all'),
+  updateApplicationStatus: (appId, status) => api.put(`/applications/${appId}/status`, { status }),
 };
 
 // Auth helper functions

@@ -61,7 +61,8 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
+            {/* Only show navigation links if user is not an admin */}
+            {!user?.is_admin && navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -80,35 +81,49 @@ const Navbar = () => {
 
             {isAuthenticated ? (
               <>
-                <Link
-                  to="/apply"
-                  className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium hover:shadow-lg hover:shadow-primary-500/50 transition-all"
-                >
-                  Apply Now
-                </Link>
-                <Link
-                  to="/my-applications"
-                  className="px-4 py-2 glass rounded-lg font-medium hover:bg-white/20 transition-all flex items-center gap-2"
-                >
-                  <FaUser className="text-sm" />
-                  My Projects
-                </Link>
-                {user?.is_admin && (
-                  <Link
-                    to="/admin"
-                    className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all flex items-center gap-2"
-                  >
-                    <FaUser className="text-sm" />
-                    Admin
-                  </Link>
+                {user?.is_admin ? (
+                  /* Admin-only navigation */
+                  <>
+                    <Link
+                      to="/admin"
+                      className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all flex items-center gap-2"
+                    >
+                      <FaUser className="text-sm" />
+                      Admin Dashboard
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium hover:bg-red-600/30 transition-all flex items-center gap-2"
+                    >
+                      <FaSignOutAlt className="text-sm" />
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  /* Regular user navigation */
+                  <>
+                    <Link
+                      to="/apply"
+                      className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium hover:shadow-lg hover:shadow-primary-500/50 transition-all"
+                    >
+                      Apply Now
+                    </Link>
+                    <Link
+                      to="/my-applications"
+                      className="px-4 py-2 glass rounded-lg font-medium hover:bg-white/20 transition-all flex items-center gap-2"
+                    >
+                      <FaUser className="text-sm" />
+                      My Projects
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium hover:bg-red-600/30 transition-all flex items-center gap-2"
+                    >
+                      <FaSignOutAlt className="text-sm" />
+                      Logout
+                    </button>
+                  </>
                 )}
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium hover:bg-red-600/30 transition-all flex items-center gap-2"
-                >
-                  <FaSignOutAlt className="text-sm" />
-                  Logout
-                </button>
               </>
             ) : (
               <>
@@ -147,7 +162,8 @@ const Navbar = () => {
               className="md:hidden glass-dark rounded-lg mt-2 mb-4 overflow-hidden"
             >
               <div className="flex flex-col space-y-2 p-4">
-                {navLinks.map((link) => (
+                {/* Only show navigation links if user is not an admin */}
+                {!user?.is_admin && navLinks.map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
@@ -164,41 +180,58 @@ const Navbar = () => {
 
                 {isAuthenticated ? (
                   <>
-                    <Link
-                      to="/apply"
-                      onClick={() => setIsOpen(false)}
-                      className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium text-center"
-                    >
-                      Apply Now
-                    </Link>
-                    <Link
-                      to="/my-applications"
-                      onClick={() => setIsOpen(false)}
-                      className="px-4 py-2 glass rounded-lg font-medium text-center flex items-center justify-center gap-2"
-                    >
-                      <FaUser className="text-sm" />
-                      My Projects
-                    </Link>
-                    {user?.is_admin && (
-                      <Link
-                        to="/admin"
-                        onClick={() => setIsOpen(false)}
-                        className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-medium text-center flex items-center justify-center gap-2"
-                      >
-                        <FaUser className="text-sm" />
-                        Admin Dashboard
-                      </Link>
+                    {user?.is_admin ? (
+                      /* Admin mobile navigation */
+                      <>
+                        <Link
+                          to="/admin"
+                          onClick={() => setIsOpen(false)}
+                          className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-medium text-center flex items-center justify-center gap-2"
+                        >
+                          <FaUser className="text-sm" />
+                          Admin Dashboard
+                        </Link>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setIsOpen(false);
+                          }}
+                          className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium flex items-center justify-center gap-2"
+                        >
+                          <FaSignOutAlt className="text-sm" />
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      /* Regular user mobile navigation */
+                      <>
+                        <Link
+                          to="/apply"
+                          onClick={() => setIsOpen(false)}
+                          className="px-4 py-2 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg font-medium text-center"
+                        >
+                          Apply Now
+                        </Link>
+                        <Link
+                          to="/my-applications"
+                          onClick={() => setIsOpen(false)}
+                          className="px-4 py-2 glass rounded-lg font-medium text-center flex items-center justify-center gap-2"
+                        >
+                          <FaUser className="text-sm" />
+                          My Projects
+                        </Link>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setIsOpen(false);
+                          }}
+                          className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium flex items-center justify-center gap-2"
+                        >
+                          <FaSignOutAlt className="text-sm" />
+                          Logout
+                        </button>
+                      </>
                     )}
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsOpen(false);
-                      }}
-                      className="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg font-medium flex items-center justify-center gap-2"
-                    >
-                      <FaSignOutAlt className="text-sm" />
-                      Logout
-                    </button>
                   </>
                 ) : (
                   <>
