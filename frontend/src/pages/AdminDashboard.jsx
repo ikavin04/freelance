@@ -8,7 +8,12 @@ import {
   FaCalendarAlt,
   FaEye,
   FaCheck,
-  FaTimes
+  FaTimes,
+  FaVideo,
+  FaPalette,
+  FaGlobe,
+  FaMobileAlt,
+  FaBriefcase
 } from 'react-icons/fa';
 import { applicationAPI, authHelpers } from '../services/api';
 
@@ -42,17 +47,18 @@ const AdminDashboard = () => {
   };
 
   const getServiceIcon = (serviceType) => {
-    const icons = {
-      'Video Production': '🎬',
-      'Video Editing': '🎬',
-      'Poster Design': '🎨',
-      'Graphic Design': '🎨',
-      'Website Creation': '🌐',
-      'Web Development': '🌐',
-      'App Development': '📱',
-      'Mobile Solutions': '📱'
+    const iconMap = {
+      'Video Production': FaVideo,
+      'Video Editing': FaVideo,
+      'Poster Design': FaPalette,
+      'Graphic Design': FaPalette,
+      'Website Creation': FaGlobe,
+      'Web Development': FaGlobe,
+      'App Development': FaMobileAlt,
+      'Mobile Solutions': FaMobileAlt
     };
-    return icons[serviceType] || '💼';
+    const Icon = iconMap[serviceType] || FaBriefcase;
+    return <Icon className="text-3xl text-white" />;
   };
 
   const formatDate = (dateString) => {
@@ -140,7 +146,9 @@ const AdminDashboard = () => {
             transition={{ delay: 0.4 }}
             className="glass-dark p-12 rounded-3xl text-center"
           >
-            <div className="text-6xl text-gray-600 mx-auto mb-4">📋</div>
+            <div className="text-6xl text-gray-600 mx-auto mb-4 flex justify-center">
+              <FaBriefcase />
+            </div>
             <h3 className="text-2xl font-bold mb-2">No Applications Found</h3>
             <p className="text-gray-400">
               No client applications have been submitted yet
@@ -156,99 +164,111 @@ const AdminDashboard = () => {
                 transition={{ delay: 0.4 + index * 0.1 }}
                 className="glass p-6 rounded-2xl hover:bg-white/5 transition-colors"
               >
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                  {/* Main Info */}
-                  <div className="flex items-start gap-4 flex-1">
-                    <div className="text-4xl">{getServiceIcon(app.service_type)}</div>
-                    
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex flex-col gap-4">
+                  {/* Header Row */}
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-xl border-2 border-white/30 flex items-center justify-center bg-white/5 flex-shrink-0">
+                        {getServiceIcon(app.service_type)}
+                      </div>
+                      <div>
                         <h3 className="text-xl font-bold">{app.service_type}</h3>
-                        <span className={`text-xs px-3 py-1 rounded-full capitalize ${getStatusColor(app.status || 'pending')}`}>
+                        <span className={`text-xs px-3 py-1 rounded-full capitalize inline-block mt-1 ${getStatusColor(app.status || 'pending')}`}>
                           {app.status || 'pending'}
                         </span>
                       </div>
+                    </div>
+                    
+                    {/* Action Buttons - Always Visible */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {app.status === 'pending' && (
+                        <>
+                          <button
+                            onClick={() => updateApplicationStatus(app.id, 'accepted')}
+                            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white hover:bg-green-700 border-2 border-green-600 rounded-lg text-sm font-medium transition-all whitespace-nowrap"
+                          >
+                            <FaCheck />
+                            <span>Accept</span>
+                          </button>
+                          <button
+                            onClick={() => updateApplicationStatus(app.id, 'rejected')}
+                            className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white hover:bg-red-700 border-2 border-red-600 rounded-lg text-sm font-medium transition-all whitespace-nowrap"
+                          >
+                            <FaTimes />
+                            <span>Reject</span>
+                          </button>
+                        </>
+                      )}
                       
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
-                        <div className="flex items-center gap-2 text-gray-300">
-                          <FaEnvelope className="text-white" />
-                          <span>{app.user_email}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-300">
-                          <FaMapMarkerAlt className="text-white" />
-                          <span>{app.city}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-300">
-                          <FaClock className="text-white" />
-                          <span>{app.days} days</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-300">
-                          <FaCalendarAlt className="text-white" />
-                          <span>{formatDate(app.created_at)}</span>
-                        </div>
-                        <div className="sm:col-span-2 lg:col-span-2">
-                          <span className="text-gray-400 text-xs">ID: #{app.id.toString().padStart(4, '0')}</span>
-                        </div>
-                      </div>
-
-                      {app.project_description && (
-                        <div className="mt-3">
-                          <p className="text-gray-400 text-xs mb-1">Project Description:</p>
-                          <p className="text-gray-300 text-sm bg-black/20 p-3 rounded-lg line-clamp-3">
-                            {app.project_description}
-                          </p>
-                        </div>
+                      {app.status === 'accepted' && (
+                        <button
+                          onClick={() => updateApplicationStatus(app.id, 'completed')}
+                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 border-2 border-blue-600 rounded-lg text-sm font-medium transition-all whitespace-nowrap"
+                        >
+                          <FaCheck />
+                          <span>Mark Complete</span>
+                        </button>
                       )}
 
-                      {app.reference_images && (
-                        <div className="mt-2">
-                          <p className="text-gray-400 text-xs mb-1">Reference Images:</p>
-                          <p className="text-blue-400 text-sm bg-black/20 p-2 rounded-lg truncate">
-                            {app.reference_images}
-                          </p>
-                        </div>
-                      )}
+                      <button
+                        onClick={() => setSelectedApplication(app)}
+                        className="flex items-center gap-2 px-4 py-2 bg-transparent text-white hover:bg-white hover:text-black border-2 border-white rounded-lg text-sm font-medium transition-all whitespace-nowrap"
+                      >
+                        <FaEye />
+                        <span>View Details</span>
+                      </button>
                     </div>
                   </div>
 
-                  {/* Actions */}
-                  <div className="flex items-center gap-2 lg:flex-col lg:items-end">
-                    {app.status === 'pending' && (
-                      <>
-                        <button
-                          onClick={() => updateApplicationStatus(app.id, 'accepted')}
-                          className="flex items-center gap-2 px-4 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white rounded-lg text-sm font-medium transition-all"
-                        >
-                          <FaCheck />
-                          Accept
-                        </button>
-                        <button
-                          onClick={() => updateApplicationStatus(app.id, 'rejected')}
-                          className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white hover:bg-gray-700 border-2 border-gray-600 rounded-lg text-sm font-medium transition-all"
-                        >
-                          <FaTimes />
-                          Reject
-                        </button>
-                      </>
-                    )}
-                    
-                    {app.status === 'accepted' && (
-                      <button
-                        onClick={() => updateApplicationStatus(app.id, 'completed')}
-                        className="flex items-center gap-2 px-4 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white rounded-lg text-sm font-medium transition-all"
-                      >
-                        <FaCheck />
-                        Mark Complete
-                      </button>
+                  {/* Main Info */}
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+                      <div className="flex items-center gap-2 text-gray-300">
+                        <FaEnvelope className="text-white" />
+                        <span className="truncate">{app.user_email}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-300">
+                        <FaMapMarkerAlt className="text-white" />
+                        <span>{app.city}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-300">
+                        <FaClock className="text-white" />
+                        <span>{app.days} days</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-300">
+                        <FaCalendarAlt className="text-white" />
+                        <span>{formatDate(app.created_at)}</span>
+                      </div>
+                    </div>
+
+                    <div className="text-gray-400 text-xs">
+                      ID: #{app.id.toString().padStart(4, '0')}
+                    </div>
+
+                    {app.project_description && (
+                      <div>
+                        <p className="text-gray-400 text-xs mb-1">Project Description:</p>
+                        <p className="text-gray-300 text-sm bg-black/20 p-3 rounded-lg line-clamp-2">
+                          {app.project_description}
+                        </p>
+                      </div>
                     )}
 
-                    <button
-                      onClick={() => setSelectedApplication(app)}
-                      className="flex items-center gap-2 px-4 py-2 bg-transparent text-white hover:bg-white hover:text-black border-2 border-white rounded-lg text-sm font-medium transition-all"
-                    >
-                      <FaEye />
-                      View Details
-                    </button>
+                    {app.reference_images && (
+                      <div>
+                        <p className="text-gray-400 text-xs mb-1">Reference Images:</p>
+                        <div className="text-blue-400 text-sm bg-black/20 p-3 rounded-lg break-all overflow-hidden">
+                          <a 
+                            href={app.reference_images.split(',')[0].trim()} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                          >
+                            {app.reference_images}
+                          </a>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -331,10 +351,15 @@ const AdminDashboard = () => {
                 {selectedApplication.reference_images && (
                   <div>
                     <label className="text-gray-400 text-sm block mb-2">Reference Images</label>
-                    <div className="p-4 bg-black/30 rounded-lg">
-                      <p className="text-blue-400 break-all">
+                    <div className="p-4 bg-black/30 rounded-lg break-all overflow-hidden">
+                      <a 
+                        href={selectedApplication.reference_images.split(',')[0].trim()} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-400 hover:text-blue-300 hover:underline"
+                      >
                         {selectedApplication.reference_images}
-                      </p>
+                      </a>
                     </div>
                   </div>
                 )}
