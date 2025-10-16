@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import { FaClipboardList, FaCalendarAlt, FaMapMarkerAlt, FaBriefcase, FaClock, FaPlus, FaVideo, FaPalette, FaGlobe, FaMobileAlt } from 'react-icons/fa';
+import { FaClipboardList, FaCalendarAlt, FaMapMarkerAlt, FaBriefcase, FaClock, FaPlus, FaVideo, FaPalette, FaGlobe, FaMobileAlt, FaDownload, FaFileVideo, FaFileImage, FaFileArchive, FaGithub, FaRocket, FaCheck, FaTimes, FaHourglassHalf, FaEye } from 'react-icons/fa';
 import { applicationAPI, authHelpers } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ const MyApplications = () => {
   const user = authHelpers.getUser();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedApp, setExpandedApp] = useState(null);
 
   useEffect(() => {
     fetchApplications();
@@ -18,8 +19,10 @@ const MyApplications = () => {
   const fetchApplications = async () => {
     try {
       const response = await applicationAPI.getApplications();
+      console.log('Applications fetched:', response.data.applications);
       setApplications(response.data.applications);
     } catch (error) {
+      console.error('Error fetching applications:', error);
       toast.error('Failed to fetch applications');
     } finally {
       setLoading(false);
@@ -43,6 +46,41 @@ const MyApplications = () => {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  const getStatusBadge = (status) => {
+    const badges = {
+      pending: {
+        icon: FaHourglassHalf,
+        text: 'Pending Review',
+        className: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+      },
+      accepted: {
+        icon: FaCheck,
+        text: 'Accepted - In Progress',
+        className: 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+      },
+      completed: {
+        icon: FaCheck,
+        text: 'Completed & Delivered',
+        className: 'bg-green-500/20 text-green-400 border-green-500/30'
+      },
+      rejected: {
+        icon: FaTimes,
+        text: 'Rejected',
+        className: 'bg-red-500/20 text-red-400 border-red-500/30'
+      }
+    };
+    
+    const badge = badges[status] || badges.pending;
+    const Icon = badge.icon;
+    
+    return (
+      <span className={`text-xs px-3 py-1 rounded-full border flex items-center gap-1 ${badge.className}`}>
+        <Icon className="text-xs" />
+        {badge.text}
+      </span>
+    );
   };
 
   if (loading) {
@@ -80,7 +118,7 @@ const MyApplications = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6"
         >
           <div className="glass border-2 border-white/20 p-6 rounded-2xl">
             <div className="flex items-center gap-4">
@@ -97,16 +135,39 @@ const MyApplications = () => {
           <div className="glass border-2 border-white/20 p-6 rounded-2xl">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl border-2 border-white flex items-center justify-center">
-                <FaClock className="text-2xl text-white" />
+                <FaClock className="text-2xl text-yellow-400" />
               </div>
               <div>
-                <div className="text-3xl font-bold text-white">Pending</div>
-                <div className="text-gray-400 text-sm">Under Review</div>
+                <div className="text-3xl font-bold text-yellow-400">
+                  {applications.filter(a => a.status === 'pending').length}
+                </div>
+                <div className="text-gray-400 text-sm">Pending</div>
               </div>
             </div>
           </div>
 
-          <div className="glass border-2 border-white/20 p-6 rounded-2xl sm:col-span-2 lg:col-span-1">
+          <div className="glass border-2 border-white/20 p-6 rounded-2xl">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl border-2 border-white flex items-center justify-center">
+                <FaCheck className="text-2xl text-green-400" />
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-green-400">
+                  {applications.filter(a => a.status === 'completed').length}
+                </div>
+                <div className="text-gray-400 text-sm">Completed</div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-12"
+        >
+          <div className="glass border-2 border-white/20 p-6 rounded-2xl">
             <button
               onClick={() => navigate('/apply')}
               className="w-full h-full flex items-center justify-center gap-2 text-white hover:text-gray-300 font-semibold transition-all group"
@@ -155,9 +216,7 @@ const MyApplications = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-bold">{app.service_type}</h3>
-                      <span className="text-xs text-white bg-white/20 px-2 py-1 rounded-full border border-white/30">
-                        Pending Review
-                      </span>
+                      {getStatusBadge(app.status || 'pending')}
                     </div>
                   </div>
                 </div>
@@ -196,6 +255,30 @@ const MyApplications = () => {
                   )}
                 </div>
 
+                {/* Delivery Indicator */}
+                {app.status === 'completed' && app.delivered_at && (
+                  <div className="mt-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <FaCheck className="text-green-400" />
+                        <span className="text-sm font-semibold text-green-400">Product Delivered</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          console.log('Opening delivery modal for app:', app);
+                          setExpandedApp(app);
+                        }}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all"
+                      >
+                        <FaEye /> View Details
+                      </button>
+                    </div>
+                    <div className="text-xs text-gray-400 mt-1">
+                      Delivered on {formatDate(app.delivered_at)}
+                    </div>
+                  </div>
+                )}
+
                 {/* Footer */}
                 <div className="mt-4 pt-4 border-t border-white/10">
                   <div className="flex items-center justify-between text-sm">
@@ -214,7 +297,7 @@ const MyApplications = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="glass border-2 border-white/20 p-6 rounded-2xl text-center"
+            className="glass border-2 border-white/20 p-6 rounded-2xl text-center mt-8"
           >
             <p className="text-gray-300">
               <span className="text-white font-semibold">Tip:</span> All applications are 
@@ -223,6 +306,157 @@ const MyApplications = () => {
             </p>
           </motion.div>
         )}
+
+        {/* Delivery Details Modal */}
+        <AnimatePresence>
+          {expandedApp && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 overflow-y-auto"
+              onClick={() => setExpandedApp(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="glass-dark p-6 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {console.log('Modal rendering with expandedApp:', {
+                  delivery_file_url: expandedApp.delivery_file_url,
+                  delivery_apk_url: expandedApp.delivery_apk_url,
+                  delivery_github_url: expandedApp.delivery_github_url,
+                  delivery_deployed_url: expandedApp.delivery_deployed_url,
+                  delivery_notes: expandedApp.delivery_notes,
+                  delivered_at: expandedApp.delivered_at
+                })}
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-2xl font-bold flex items-center gap-2">
+                      <FaCheck className="text-green-400" /> Final Product Delivered
+                    </h3>
+                    <p className="text-gray-400 text-sm mt-1">
+                      {expandedApp.service_type} - Delivered on {formatDate(expandedApp.delivered_at)}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setExpandedApp(null)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <FaTimes className="text-xl" />
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {expandedApp.delivery_file_url && (
+                    <a
+                      href={expandedApp.delivery_file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-4 bg-white/5 hover:bg-white/10 border border-white/20 rounded-xl transition-all group"
+                    >
+                      <div className="w-12 h-12 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+                        <FaFileVideo className="text-xl text-blue-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-white">Download File</div>
+                        <div className="text-xs text-gray-400 truncate">{expandedApp.delivery_file_url}</div>
+                      </div>
+                      <FaDownload className="text-white text-xl group-hover:translate-y-1 transition-transform flex-shrink-0" />
+                    </a>
+                  )}
+                  
+                  {expandedApp.delivery_apk_url && (
+                    <a
+                      href={expandedApp.delivery_apk_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-4 bg-white/5 hover:bg-white/10 border border-white/20 rounded-xl transition-all group"
+                    >
+                      <div className="w-12 h-12 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center flex-shrink-0">
+                        <FaFileArchive className="text-xl text-purple-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-white">Download APK</div>
+                        <div className="text-xs text-gray-400 truncate">{expandedApp.delivery_apk_url}</div>
+                      </div>
+                      <FaDownload className="text-white text-xl group-hover:translate-y-1 transition-transform flex-shrink-0" />
+                    </a>
+                  )}
+                  
+                  {expandedApp.delivery_github_url && (
+                    <a
+                      href={expandedApp.delivery_github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-4 bg-white/5 hover:bg-white/10 border border-white/20 rounded-xl transition-all group"
+                    >
+                      <div className="w-12 h-12 rounded-lg bg-gray-500/20 border border-gray-500/30 flex items-center justify-center flex-shrink-0">
+                        <FaGithub className="text-xl text-gray-300 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-white">View on GitHub</div>
+                        <div className="text-xs text-gray-400 truncate">{expandedApp.delivery_github_url}</div>
+                      </div>
+                      <FaRocket className="text-white text-xl group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                    </a>
+                  )}
+                  
+                  {expandedApp.delivery_deployed_url && (
+                    <a
+                      href={expandedApp.delivery_deployed_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-4 bg-white/5 hover:bg-white/10 border border-white/20 rounded-xl transition-all group"
+                    >
+                      <div className="w-12 h-12 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center flex-shrink-0">
+                        <FaRocket className="text-xl text-cyan-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-white">Visit Live Website</div>
+                        <div className="text-xs text-gray-400 truncate">{expandedApp.delivery_deployed_url}</div>
+                      </div>
+                      <FaGlobe className="text-white text-xl group-hover:rotate-12 transition-transform flex-shrink-0" />
+                    </a>
+                  )}
+                  
+                  {expandedApp.delivery_notes && (
+                    <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="text-lg">📝</div>
+                        <div className="text-sm font-semibold text-yellow-400">Special Notes from Admin:</div>
+                      </div>
+                      <p className="text-sm text-gray-300 whitespace-pre-wrap leading-relaxed">
+                        {expandedApp.delivery_notes}
+                      </p>
+                    </div>
+                  )}
+
+                  {!expandedApp.delivery_file_url && 
+                   !expandedApp.delivery_apk_url && 
+                   !expandedApp.delivery_github_url && 
+                   !expandedApp.delivery_deployed_url && (
+                    <div className="text-center p-8 text-gray-400">
+                      <FaCheck className="text-4xl text-green-400 mx-auto mb-3" />
+                      <p>No downloadable files. Check your email for delivery details.</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <button
+                    onClick={() => setExpandedApp(null)}
+                    className="w-full px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold transition-all"
+                  >
+                    Close
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

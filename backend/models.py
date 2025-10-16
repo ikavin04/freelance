@@ -56,6 +56,14 @@ class Application(db.Model):
     status = db.Column(db.String(20), default='pending')  # pending, accepted, rejected, completed
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
+    # Delivery fields for final product submission
+    delivery_file_url = db.Column(db.Text, nullable=True)  # Uploaded file URL (video/image/pdf)
+    delivery_apk_url = db.Column(db.Text, nullable=True)  # APK file for app development
+    delivery_github_url = db.Column(db.Text, nullable=True)  # GitHub repository link
+    delivery_deployed_url = db.Column(db.Text, nullable=True)  # Deployed website link
+    delivery_notes = db.Column(db.Text, nullable=True)  # Additional delivery notes
+    delivered_at = db.Column(db.DateTime, nullable=True)  # Timestamp of delivery
+    
     def to_dict(self):
         return {
             'id': self.id,
@@ -67,5 +75,11 @@ class Application(db.Model):
             'days': self.days,
             'user_email': self.user_email,
             'status': self.status,
-            'created_at': self.created_at.isoformat()
+            'created_at': self.created_at.isoformat(),
+            'delivery_file_url': self.delivery_file_url,
+            'delivery_apk_url': self.delivery_apk_url,
+            'delivery_github_url': self.delivery_github_url,
+            'delivery_deployed_url': self.delivery_deployed_url,
+            'delivery_notes': self.delivery_notes,
+            'delivered_at': self.delivered_at.isoformat() if self.delivered_at else None
         }

@@ -90,6 +90,7 @@ export const applicationAPI = {
   getApplications: () => api.get('/applications'),
   getAllApplications: () => api.get('/applications/all'),
   updateApplicationStatus: (appId, status) => api.put(`/applications/${appId}/status`, { status }),
+  deliverFinalProduct: (appId, deliveryData) => api.put(`/applications/${appId}/deliver`, deliveryData),
 };
 
 // Auth helper functions with error handling for localStorage
