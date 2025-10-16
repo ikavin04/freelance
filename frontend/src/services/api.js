@@ -93,6 +93,27 @@ export const applicationAPI = {
   deliverFinalProduct: (appId, deliveryData) => api.put(`/applications/${appId}/deliver`, deliveryData),
 };
 
+// File Upload API calls
+export const uploadAPI = {
+  uploadFile: (file, onProgress) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    return api.post('/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        if (onProgress) {
+          onProgress(percentCompleted);
+        }
+      },
+    });
+  },
+  listUploads: () => api.get('/uploads/list'),
+};
+
 // Auth helper functions with error handling for localStorage
 export const authHelpers = {
   setToken: (token) => {

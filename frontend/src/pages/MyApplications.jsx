@@ -324,14 +324,6 @@ const MyApplications = () => {
                 className="glass-dark p-6 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
-                {console.log('Modal rendering with expandedApp:', {
-                  delivery_file_url: expandedApp.delivery_file_url,
-                  delivery_apk_url: expandedApp.delivery_apk_url,
-                  delivery_github_url: expandedApp.delivery_github_url,
-                  delivery_deployed_url: expandedApp.delivery_deployed_url,
-                  delivery_notes: expandedApp.delivery_notes,
-                  delivered_at: expandedApp.delivered_at
-                })}
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h3 className="text-2xl font-bold flex items-center gap-2">

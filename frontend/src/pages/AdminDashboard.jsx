@@ -23,7 +23,7 @@ import {
   FaRocket,
   FaTruck
 } from 'react-icons/fa';
-import { applicationAPI } from '../services/api';
+import { applicationAPI, uploadAPI } from '../services/api';
 
 const AdminDashboard = () => {
   const [allApplications, setAllApplications] = useState([]);
@@ -134,47 +134,45 @@ const AdminDashboard = () => {
     setUploadProgress(0);
   };
 
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = async (event, fieldKey) => {
     const file = event.target.files[0];
     if (!file) return;
 
     setUploadProgress(0);
-    const formData = new FormData();
-    formData.append('file', file);
+    setUploadedFile(null);
 
     try {
-      // Simulate upload progress (you'll need to implement actual upload to your server/cloud storage)
-      const uploadInterval = setInterval(() => {
-        setUploadProgress(prev => {
-          if (prev >= 90) {
-            clearInterval(uploadInterval);
-            return 90;
-          }
-          return prev + 10;
-        });
-      }, 200);
+      // Upload file with real progress tracking
+      const response = await uploadAPI.uploadFile(file, (progress) => {
+        setUploadProgress(progress);
+      });
 
-      // TODO: Replace this with your actual file upload endpoint
-      // Example: const response = await fetch('/api/upload', { method: 'POST', body: formData });
+      // Get the URL from the response
+      const fileUrl = response.data.url;
       
-      // For now, create a local URL (this should be replaced with actual cloud storage URL)
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate upload delay
-      
-      clearInterval(uploadInterval);
-      setUploadProgress(100);
+      // Automatically populate the URL field
+      setDeliveryData(prev => ({
+        ...prev,
+        [fieldKey]: fileUrl
+      }));
       
       // Store file info
-      setUploadedFile(file);
+      setUploadedFile({
+        name: response.data.filename,
+        size: response.data.size,
+        type: response.data.type,
+        url: fileUrl
+      });
       
-      // In production, you would get the URL from your upload response
-      // For now, show a placeholder message
-      toast.info(`File "${file.name}" ready. Please upload to Google Drive and paste the link, or implement server upload.`);
+      toast.success(`✅ ${file.name} uploaded successfully!`);
       
-      setTimeout(() => setUploadProgress(0), 1500);
+      // Reset progress after delay
+      setTimeout(() => setUploadProgress(0), 2000);
     } catch (error) {
       console.error('Error uploading file:', error);
-      toast.error('Failed to upload file');
+      toast.error(error.response?.data?.message || 'Failed to upload file');
       setUploadProgress(0);
+      setUploadedFile(null);
     }
   };
 
@@ -183,6 +181,19 @@ const AdminDashboard = () => {
     setDeliveryLoading(true);
 
     try {
+      // Validation: Check if at least one delivery URL is provided
+      const hasAnyDeliveryData = 
+        deliveryData.delivery_file_url?.trim() ||
+        deliveryData.delivery_apk_url?.trim() ||
+        deliveryData.delivery_github_url?.trim() ||
+        deliveryData.delivery_deployed_url?.trim();
+
+      if (!hasAnyDeliveryData && !deliveryData.delivery_notes?.trim()) {
+        toast.error('⚠️ Please provide at least one delivery link or upload URL before submitting!');
+        setDeliveryLoading(false);
+        return;
+      }
+
       await applicationAPI.deliverFinalProduct(showDeliveryModal.id, deliveryData);
       
       setAllApplications(prev =>
@@ -508,7 +519,7 @@ const AdminDashboard = () => {
                                       <input
                                         type="file"
                                         accept={field.accept}
-                                        onChange={handleFileUpload}
+                                        onChange={(e) => handleFileUpload(e, field.key)}
                                         className="hidden"
                                       />
                                       <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-xl font-medium transition-all whitespace-nowrap">
@@ -565,8 +576,10 @@ const AdminDashboard = () => {
 
                   <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
                     <p className="text-sm text-blue-300">
-                      💡 <strong>Tip:</strong> You can upload files directly from your device or paste a Google Drive/Dropbox link. 
-                      The client will receive an email with all delivery links.
+                      💡 <strong>Two Options:</strong><br />
+                      <strong>Option 1:</strong> Click "Upload" to upload files directly from your computer (auto-fills URL)<br />
+                      <strong>Option 2:</strong> Upload to Google Drive/cloud storage and paste the shareable link<br />
+                      <span className="text-xs mt-1 block">⚠️ At least one delivery link must be provided to complete delivery!</span>
                     </p>
                   </div>
 

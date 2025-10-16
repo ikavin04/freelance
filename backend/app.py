@@ -7,6 +7,7 @@ from config import Config
 from models import db
 from routes.auth import auth_bp
 from routes.applications import applications_bp
+from routes.uploads import uploads_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -21,6 +22,7 @@ jwt = JWTManager(app)
 # Register blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(applications_bp, url_prefix='/api')
+app.register_blueprint(uploads_bp, url_prefix='/api')
 
 # Make mail and bcrypt available globally
 app.mail = mail
