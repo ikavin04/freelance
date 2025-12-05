@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaInstagram, FaYoutube, FaGithub, FaHeart } from 'react-icons/fa';
+import { FaInstagram, FaHeart } from 'react-icons/fa';
 
 const Footer = () => {
   const socialLinks = [
@@ -7,18 +7,6 @@ const Footer = () => {
       icon: FaInstagram, 
       href: 'https://instagram.com', 
       label: 'Instagram',
-      color: 'hover:text-white'
-    },
-    { 
-      icon: FaYoutube, 
-      href: 'https://youtube.com', 
-      label: 'YouTube',
-      color: 'hover:text-white'
-    },
-    { 
-      icon: FaGithub, 
-      href: 'https://github.com', 
-      label: 'GitHub',
       color: 'hover:text-white'
     },
   ];
@@ -35,7 +23,7 @@ const Footer = () => {
             viewport={{ once: true }}
             className="text-3xl sm:text-4xl font-serif font-bold tracking-tight gradient-text-golden"
           >
-            KAVIN
+            CREO STUDIOS
           </motion.div>
 
           {/* Social Links */}
@@ -85,7 +73,7 @@ const Footer = () => {
             className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-gray-400 text-sm"
           >
             <p className="flex items-center gap-1">
-              © 2025 Kavin Creative Hub. All rights reserved.
+              © 2025 Creo Studios. All rights reserved.
             </p>
           </motion.div>
         </div>

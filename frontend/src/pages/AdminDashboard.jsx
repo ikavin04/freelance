@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { 
@@ -164,7 +164,7 @@ const AdminDashboard = () => {
         url: fileUrl
       });
       
-      toast.success(`✅ ${file.name} uploaded successfully!`);
+      toast.success(`âœ… ${file.name} uploaded successfully!`);
       
       // Reset progress after delay
       setTimeout(() => setUploadProgress(0), 2000);
@@ -189,7 +189,7 @@ const AdminDashboard = () => {
         deliveryData.delivery_deployed_url?.trim();
 
       if (!hasAnyDeliveryData && !deliveryData.delivery_notes?.trim()) {
-        toast.error('⚠️ Please provide at least one delivery link or upload URL before submitting!');
+        toast.error('âš ï¸ Please provide at least one delivery link or upload URL before submitting!');
         setDeliveryLoading(false);
         return;
       }
@@ -204,7 +204,7 @@ const AdminDashboard = () => {
         )
       );
 
-      toast.success('🎉 Final product delivered and client notified!');
+      toast.success('ðŸŽ‰ Final product delivered and client notified!');
       setShowDeliveryModal(null);
       setDeliveryData({
         delivery_file_url: '',
@@ -564,7 +564,7 @@ const AdminDashboard = () => {
 
                   <div>
                     <label className="block text-sm font-medium mb-2 text-gray-300">
-                      📝 Delivery Notes (Optional)
+                      ðŸ“ Delivery Notes (Optional)
                     </label>
                     <textarea
                       value={deliveryData.delivery_notes}
@@ -576,10 +576,10 @@ const AdminDashboard = () => {
 
                   <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
                     <p className="text-sm text-blue-300">
-                      💡 <strong>Two Options:</strong><br />
+                      ðŸ’¡ <strong>Two Options:</strong><br />
                       <strong>Option 1:</strong> Click "Upload" to upload files directly from your computer (auto-fills URL)<br />
                       <strong>Option 2:</strong> Upload to Google Drive/cloud storage and paste the shareable link<br />
-                      <span className="text-xs mt-1 block">⚠️ At least one delivery link must be provided to complete delivery!</span>
+                      <span className="text-xs mt-1 block">âš ï¸ At least one delivery link must be provided to complete delivery!</span>
                     </p>
                   </div>
 

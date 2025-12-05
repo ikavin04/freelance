@@ -40,23 +40,23 @@ def send_otp_email(email, otp):
     """Send OTP via email"""
     try:
         msg = Message(
-            subject='Your OTP for Kavin Creative Hub',
+            subject='Your OTP for Creo Studios',
             recipients=[email],
             html=f"""
             <html>
                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
                     <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                        <h1 style="color: #7c3aed; text-align: center;">Kavin Creative Hub</h1>
+                        <h1 style="color: #7c3aed; text-align: center;">Creo Studios</h1>
                         <h2 style="color: #333;">Email Verification</h2>
                         <p style="color: #555; font-size: 16px;">Hello!</p>
-                        <p style="color: #555; font-size: 16px;">Thank you for registering with Kavin Creative Hub. Your One-Time Password (OTP) is:</p>
+                        <p style="color: #555; font-size: 16px;">Thank you for registering with Creo Studios. Your One-Time Password (OTP) is:</p>
                         <div style="background-color: #7c3aed; color: white; font-size: 32px; font-weight: bold; text-align: center; padding: 20px; border-radius: 8px; letter-spacing: 8px; margin: 20px 0;">
                             {otp}
                         </div>
                         <p style="color: #555; font-size: 14px;">This OTP is valid for 5 minutes.</p>
                         <p style="color: #555; font-size: 14px;">If you didn't request this, please ignore this email.</p>
                         <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-                        <p style="color: #888; font-size: 12px; text-align: center;">© 2025 Kavin Creative Hub. Built with ❤️</p>
+                        <p style="color: #888; font-size: 12px; text-align: center;">© 2025 Creo Studios. Built with ❤️</p>
                     </div>
                 </body>
             </html>

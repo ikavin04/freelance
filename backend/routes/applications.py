@@ -218,7 +218,7 @@ def send_delivery_notification_email(application):
         if application.delivery_file_url:
             delivery_links.append(f'''
                 <div style="margin: 10px 0;">
-                    <strong>📁 Final Files:</strong><br>
+                    <strong> Final Files:</strong><br>
                     <a href="{application.delivery_file_url}" style="color: #667eea; text-decoration: none;">
                         Download Files →
                     </a>
@@ -228,7 +228,7 @@ def send_delivery_notification_email(application):
         if application.delivery_apk_url:
             delivery_links.append(f'''
                 <div style="margin: 10px 0;">
-                    <strong>📱 APK File:</strong><br>
+                    <strong> APK File:</strong><br>
                     <a href="{application.delivery_apk_url}" style="color: #667eea; text-decoration: none;">
                         Download APK →
                     </a>
@@ -238,7 +238,7 @@ def send_delivery_notification_email(application):
         if application.delivery_github_url:
             delivery_links.append(f'''
                 <div style="margin: 10px 0;">
-                    <strong>💻 GitHub Repository:</strong><br>
+                    <strong>GitHub Repository:</strong><br>
                     <a href="{application.delivery_github_url}" style="color: #667eea; text-decoration: none;">
                         View on GitHub →
                     </a>
@@ -248,7 +248,7 @@ def send_delivery_notification_email(application):
         if application.delivery_deployed_url:
             delivery_links.append(f'''
                 <div style="margin: 10px 0;">
-                    <strong>🌐 Live Website:</strong><br>
+                    <strong>Live Website:</strong><br>
                     <a href="{application.delivery_deployed_url}" style="color: #667eea; text-decoration: none;">
                         Visit Website →
                     </a>
@@ -261,12 +261,12 @@ def send_delivery_notification_email(application):
         if application.delivery_notes:
             notes_section = f'''
                 <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
-                    <h3 style="margin: 0 0 10px 0; color: #333;">📝 Delivery Notes:</h3>
+                    <h3 style="margin: 0 0 10px 0; color: #333;">Delivery Notes:</h3>
                     <p style="margin: 0; color: #666; white-space: pre-wrap;">{application.delivery_notes}</p>
                 </div>
             '''
         
-        subject = f"🎉 Your {service_type} Project is Complete!"
+        subject = f" Your {service_type} Project is Complete!"
         
         template = f"""
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -284,7 +284,7 @@ def send_delivery_notification_email(application):
                 </p>
                 
                 <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745;">
-                    <h3 style="margin: 0 0 15px 0; color: #333;">📦 Delivery Package:</h3>
+                    <h3 style="margin: 0 0 15px 0; color: #333;"> Delivery Package:</h3>
                     {delivery_section}
                 </div>
                 
@@ -313,21 +313,21 @@ def send_delivery_notification_email(application):
                 
                 <div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
                     <p style="margin: 0; color: #0066cc; font-size: 14px;">
-                        💡 <strong>Need Support?</strong> If you encounter any issues or have questions, 
+                          <strong>Need Support?</strong> If you encounter any issues or have questions, 
                         please don't hesitate to reach out. I'm here to help!
                     </p>
                 </div>
                 
                 <p style="color: #888; font-size: 14px; margin-top: 30px;">
-                    Thank you for choosing my services!<br>
-                    <strong>Kavin - Creative Developer</strong><br>
+                    Thank you for choosing our services!<br>
+                    <strong>Creo Studios Team</strong><br>
                     Building your ideas into reality
                 </p>
             </div>
             
             <div style="background: #333; padding: 20px; text-align: center;">
                 <p style="color: #999; font-size: 12px; margin: 0;">
-                    © 2025 Kavin Creative Hub. All rights reserved.
+                    © 2025 Creo Studios. All rights reserved.
                 </p>
             </div>
         </div>
@@ -352,7 +352,7 @@ def send_status_notification_email(application, status):
     """Send email notification to client about application status"""
     try:
         if status == 'accepted':
-            subject = f"🎉 Your {application.service_type} Project Has Been Accepted!"
+            subject = f"Your {application.service_type} Project Has Been Accepted!"
             template = f"""
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center;">
@@ -388,7 +388,7 @@ def send_status_notification_email(application, status):
                     
                     <p style="color: #888; font-size: 14px;">
                         Best regards,<br>
-                        <strong>Kavin - Creative Developer</strong>
+                        <strong>Creo Studios Team</strong>
                     </p>
                 </div>
             </div>
@@ -432,7 +432,7 @@ def send_status_notification_email(application, status):
                     
                     <p style="color: #888; font-size: 14px;">
                         Thank you for your understanding,<br>
-                        <strong>Kavin - Creative Developer</strong>
+                        <strong>Creo Studios Team</strong>
                     </p>
                 </div>
             </div>

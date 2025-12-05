@@ -42,6 +42,31 @@ class OTP(db.Model):
             'created_at': self.created_at.isoformat()
         }
 
+class UploadedFile(db.Model):
+    __tablename__ = 'uploaded_files'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(255), nullable=False)
+    original_filename = db.Column(db.String(255), nullable=False)
+    file_type = db.Column(db.String(50), nullable=False)  # video, image, document, archive, apk
+    mime_type = db.Column(db.String(100), nullable=False)
+    file_data = db.Column(db.LargeBinary, nullable=False)  # Binary file data
+    file_size = db.Column(db.Integer, nullable=False)
+    uploaded_by = db.Column(db.String(150), db.ForeignKey('users.email'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'filename': self.filename,
+            'original_filename': self.original_filename,
+            'file_type': self.file_type,
+            'mime_type': self.mime_type,
+            'file_size': self.file_size,
+            'uploaded_by': self.uploaded_by,
+            'created_at': self.created_at.isoformat()
+        }
+
 class Application(db.Model):
     __tablename__ = 'applications'
     

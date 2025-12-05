@@ -151,10 +151,6 @@ const Home = () => {
                     <p className="text-gray-500 leading-relaxed group-hover:text-gray-400 transition-colors">
                       {service.description}
                     </p>
-                    <div className="mt-4 flex items-center gap-2 text-sm text-gray-600 group-hover:text-white transition-colors">
-                      <span className="uppercase tracking-wider">Learn More</span>
-                      <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
-                    </div>
                   </div>
                 </div>
               </motion.div>

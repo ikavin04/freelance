@@ -48,10 +48,10 @@ const About = () => {
                 transition={{ delay: 0.4, type: 'spring', stiffness: 200 }}
                 className="w-32 h-32 border-2 border-golden flex items-center justify-center text-5xl font-serif font-bold mb-6 gradient-text-golden"
               >
-                K
+                C
               </motion.div>
-              <h2 className="text-4xl font-serif font-bold mb-2 gradient-text-golden">KAVIN</h2>
-              <p className="text-gray-400 text-lg uppercase tracking-widest text-sm">Creative Developer & Designer</p>
+              <h2 className="text-4xl font-serif font-bold mb-2 gradient-text-golden">CREO STUDIOS</h2>
+              <p className="text-gray-400 text-lg uppercase tracking-widest text-sm">Creative Development & Design</p>
             </div>
 
             <motion.div
@@ -62,7 +62,7 @@ const About = () => {
               className="text-center space-y-4"
             >
               <p className="text-gray-300 text-lg leading-relaxed">
-                Hi, I'm <span className="text-white font-semibold">Kavin</span> — a passionate creator and developer 
+                We are <span className="text-white font-semibold">Creo Studios</span> — a creative development studio 
                 helping brands, creators, and startups design visuals, build websites, and bring projects to life with 
                 modern technology and creativity.
               </p>

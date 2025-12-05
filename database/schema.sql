@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
+    is_admin BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -37,7 +38,27 @@ CREATE TABLE IF NOT EXISTS applications (
     user_email VARCHAR(150) NOT NULL,
     status VARCHAR(20) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    delivery_file_url TEXT,
+    delivery_apk_url TEXT,
+    delivery_github_url TEXT,
+    delivery_deployed_url TEXT,
+    delivery_notes TEXT,
+    delivered_at TIMESTAMP,
     FOREIGN KEY (user_email) REFERENCES users(email) ON DELETE CASCADE
+);
+
+-- Uploaded Files table (stores files in PostgreSQL)
+CREATE TABLE IF NOT EXISTS uploaded_files (
+    id SERIAL PRIMARY KEY,
+    filename VARCHAR(255) NOT NULL,
+    original_filename VARCHAR(255) NOT NULL,
+    file_type VARCHAR(50) NOT NULL,
+    mime_type VARCHAR(100) NOT NULL,
+    file_data BYTEA NOT NULL,
+    file_size INTEGER NOT NULL,
+    uploaded_by VARCHAR(150) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (uploaded_by) REFERENCES users(email) ON DELETE CASCADE
 );
 
 -- Create indexes for better performance
@@ -45,6 +66,8 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_otps_email ON otps(email);
 CREATE INDEX IF NOT EXISTS idx_applications_user_email ON applications(user_email);
 CREATE INDEX IF NOT EXISTS idx_applications_created_at ON applications(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_uploaded_files_uploaded_by ON uploaded_files(uploaded_by);
+CREATE INDEX IF NOT EXISTS idx_uploaded_files_created_at ON uploaded_files(created_at DESC);
 
 -- Optional: Create a function to automatically delete expired OTPs
 CREATE OR REPLACE FUNCTION delete_expired_otps()

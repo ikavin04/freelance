@@ -8,7 +8,7 @@ Write-Host ""
 # Check if PostgreSQL is accessible
 Write-Host "🔍 Checking PostgreSQL..." -ForegroundColor Yellow
 try {
-    $pgCheck = psql -U postgres -c "SELECT version();" 2>&1
+    $null = & psql -U postgres -c 'SELECT version();' 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "✅ PostgreSQL is accessible" -ForegroundColor Green
     } else {

@@ -30,7 +30,7 @@ app.bcrypt = bcrypt
 
 @app.route('/')
 def home():
-    return {"message": "Kavin Creative Hub API is running!", "status": "success"}
+    return {"message": "Creo Studios API is running!", "status": "success"}
 
 # Create tables if they don't exist
 with app.app_context():

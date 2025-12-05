@@ -105,7 +105,7 @@ const Register = () => {
               <FaUser className="text-3xl gradient-text-golden" />
             </motion.div>
             <h1 className="text-3xl font-bold mb-2 font-serif gradient-text-golden">Create Account</h1>
-            <p className="text-gray-400">Join Kavin Creative Hub today</p>
+            <p className="text-gray-400">Join Creo Studios today</p>
           </div>
 
           {/* Form */}

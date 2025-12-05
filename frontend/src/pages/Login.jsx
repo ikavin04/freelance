@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaSignInAlt, FaUserShield } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaSignInAlt } from 'react-icons/fa';
 import { authAPI, authHelpers } from '../services/api';
 
 const Login = () => {
@@ -13,8 +13,6 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [adminLoading, setAdminLoading] = useState(false);
-  const [showAdminLogin, setShowAdminLogin] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,43 +31,19 @@ const Login = () => {
       authHelpers.setRefreshToken(refresh_token);
       authHelpers.setUser(user);
       
-      toast.success('Login successful! Welcome back!');
-      setTimeout(() => navigate('/apply'), 1000);
+      // Check if user is admin and redirect accordingly
+      if (user.is_admin) {
+        toast.success('Admin login successful! Welcome back!');
+        setTimeout(() => navigate('/admin'), 1000);
+      } else {
+        toast.success('Login successful! Welcome back!');
+        setTimeout(() => navigate('/apply'), 1000);
+      }
     } catch (error) {
       const message = error.response?.data?.message || 'Login failed';
       toast.error(message);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleAdminLogin = async (e) => {
-    e.preventDefault();
-    if (adminLoading) return;
-
-    // Check if admin credentials are entered
-    if (formData.email !== 'vkavin2006@gmail.com' || formData.password !== 'Kavin2006@') {
-      toast.error('Invalid admin credentials');
-      return;
-    }
-
-    setAdminLoading(true);
-    try {
-      const response = await authAPI.adminLogin();
-      const { access_token, refresh_token, user } = response.data;
-      
-      // Store tokens and user data
-      authHelpers.setToken(access_token);
-      authHelpers.setRefreshToken(refresh_token);
-      authHelpers.setUser(user);
-      
-      toast.success('Admin login successful!');
-      setTimeout(() => navigate('/admin'), 1000);
-    } catch (error) {
-      const message = error.response?.data?.message || 'Admin login failed';
-      toast.error(message);
-    } finally {
-      setAdminLoading(false);
     }
   };
 
@@ -155,46 +129,6 @@ const Login = () => {
               )}
             </button>
           </form>
-
-          {/* Admin Login Link */}
-          <div className="mt-4 text-center">
-            {!showAdminLogin ? (
-              <button
-                type="button"
-                onClick={() => setShowAdminLogin(true)}
-                className="text-gray-400 hover:text-white text-sm transition-colors"
-              >
-                Admin Login
-              </button>
-            ) : (
-              <div className="mt-2">
-                <button
-                  onClick={handleAdminLogin}
-                  disabled={adminLoading || !formData.email || !formData.password}
-                  className="px-4 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white disabled:opacity-50 disabled:cursor-not-allowed text-sm rounded-lg transition-all flex items-center gap-2 mx-auto"
-                >
-                  {adminLoading ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Authenticating...
-                    </>
-                  ) : (
-                    <>
-                      <FaUserShield className="text-sm" />
-                      Login as Admin
-                    </>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowAdminLogin(false)}
-                  className="text-gray-500 hover:text-gray-300 text-xs mt-2 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-          </div>
 
           {/* Footer */}
           <p className="text-center text-gray-400 mt-6">

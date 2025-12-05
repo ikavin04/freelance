@@ -1,13 +1,12 @@
-from flask import Blueprint, request, jsonify, send_from_directory, current_app
+from flask import Blueprint, request, jsonify, send_file, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.utils import secure_filename
-import os
 from datetime import datetime
-from models import User
+from io import BytesIO
+from models import db, User, UploadedFile
 
 uploads_bp = Blueprint('uploads', __name__)
 
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'uploads')
 ALLOWED_EXTENSIONS = {
     'video': {'mp4', 'mov', 'avi', 'mkv', 'webm'},
     'image': {'png', 'jpg', 'jpeg', 'gif', 'webp'},
@@ -16,8 +15,27 @@ ALLOWED_EXTENSIONS = {
     'apk': {'apk'}
 }
 
-# Create upload folder if it doesn't exist
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+MIME_TYPES = {
+    'mp4': 'video/mp4',
+    'mov': 'video/quicktime',
+    'avi': 'video/x-msvideo',
+    'mkv': 'video/x-matroska',
+    'webm': 'video/webm',
+    'png': 'image/png',
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'gif': 'image/gif',
+    'webp': 'image/webp',
+    'pdf': 'application/pdf',
+    'doc': 'application/msword',
+    'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'psd': 'image/vnd.adobe.photoshop',
+    'ai': 'application/postscript',
+    'zip': 'application/zip',
+    'rar': 'application/x-rar-compressed',
+    '7z': 'application/x-7z-compressed',
+    'apk': 'application/vnd.android.package-archive'
+}
 
 def allowed_file(filename, file_type=None):
     """Check if file extension is allowed"""
@@ -43,10 +61,15 @@ def get_file_type(filename):
             return file_type
     return 'other'
 
+def get_mime_type(filename):
+    """Get MIME type from filename"""
+    ext = filename.rsplit('.', 1)[1].lower()
+    return MIME_TYPES.get(ext, 'application/octet-stream')
+
 @uploads_bp.route('/upload', methods=['POST'])
 @jwt_required()
 def upload_file():
-    """Upload a file for delivery"""
+    """Upload a file for delivery - stored in PostgreSQL"""
     try:
         current_user_email = get_jwt_identity()
         
@@ -72,40 +95,68 @@ def upload_file():
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         filename = f"{timestamp}_{original_filename}"
         
-        # Determine file type and create subfolder
+        # Determine file type
         file_type = get_file_type(original_filename)
-        type_folder = os.path.join(UPLOAD_FOLDER, file_type)
-        os.makedirs(type_folder, exist_ok=True)
+        mime_type = get_mime_type(original_filename)
         
-        # Save file
-        filepath = os.path.join(type_folder, filename)
-        file.save(filepath)
+        # Read file data into memory
+        file_data = file.read()
+        file_size = len(file_data)
         
-        # Get file size
-        file_size = os.path.getsize(filepath)
+        # Create database record
+        uploaded_file = UploadedFile(
+            filename=filename,
+            original_filename=original_filename,
+            file_type=file_type,
+            mime_type=mime_type,
+            file_data=file_data,
+            file_size=file_size,
+            uploaded_by=current_user_email
+        )
         
-        # Create download URL
-        download_url = f"{request.host_url}api/uploads/{file_type}/{filename}"
+        db.session.add(uploaded_file)
+        db.session.commit()
+        
+        # Create download URL using file ID
+        download_url = f"{request.host_url}api/uploads/{uploaded_file.id}"
         
         return jsonify({
             'message': 'File uploaded successfully',
             'url': download_url,
             'filename': original_filename,
             'size': file_size,
-            'type': file_type
+            'type': file_type,
+            'id': uploaded_file.id
         }), 200
         
     except Exception as e:
+        db.session.rollback()
         print(f"Upload error: {str(e)}")
         return jsonify({'message': f'Failed to upload file: {str(e)}'}), 500
 
-@uploads_bp.route('/uploads/<file_type>/<filename>', methods=['GET'])
-def download_file(file_type, filename):
-    """Download/serve uploaded files"""
+@uploads_bp.route('/uploads/<int:file_id>', methods=['GET'])
+def download_file(file_id):
+    """Download/serve uploaded files from PostgreSQL"""
     try:
-        type_folder = os.path.join(UPLOAD_FOLDER, file_type)
-        return send_from_directory(type_folder, filename, as_attachment=True)
+        # Retrieve file from database
+        uploaded_file = UploadedFile.query.get(file_id)
+        
+        if not uploaded_file:
+            return jsonify({'message': 'File not found'}), 404
+        
+        # Create BytesIO object from binary data
+        file_stream = BytesIO(uploaded_file.file_data)
+        
+        # Send file with proper mime type
+        return send_file(
+            file_stream,
+            mimetype=uploaded_file.mime_type,
+            as_attachment=True,
+            download_name=uploaded_file.original_filename
+        )
+        
     except Exception as e:
+        print(f"Download error: {str(e)}")
         return jsonify({'message': 'File not found'}), 404
 
 @uploads_bp.route('/uploads/list', methods=['GET'])
@@ -120,18 +171,19 @@ def list_uploads():
         if not user or not user.is_admin:
             return jsonify({'message': 'Admin access required'}), 403
         
+        # Get all files from database
+        uploaded_files = UploadedFile.query.order_by(UploadedFile.created_at.desc()).all()
+        
         files = []
-        for file_type in ALLOWED_EXTENSIONS.keys():
-            type_folder = os.path.join(UPLOAD_FOLDER, file_type)
-            if os.path.exists(type_folder):
-                for filename in os.listdir(type_folder):
-                    filepath = os.path.join(type_folder, filename)
-                    files.append({
-                        'filename': filename,
-                        'type': file_type,
-                        'size': os.path.getsize(filepath),
-                        'url': f"{request.host_url}api/uploads/{file_type}/{filename}"
-                    })
+        for uploaded_file in uploaded_files:
+            files.append({
+                'id': uploaded_file.id,
+                'filename': uploaded_file.original_filename,
+                'type': uploaded_file.file_type,
+                'size': uploaded_file.file_size,
+                'url': f"{request.host_url}api/uploads/{uploaded_file.id}",
+                'created_at': uploaded_file.created_at.isoformat()
+            })
         
         return jsonify({'files': files, 'total': len(files)}), 200
         

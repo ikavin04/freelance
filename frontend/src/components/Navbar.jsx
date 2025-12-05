@@ -57,7 +57,7 @@ const Navbar = () => {
             <motion.div
                 className="text-2xl sm:text-3xl font-serif font-bold tracking-tight transition-all duration-300 gradient-text-golden"
             >
-              KAVIN
+              CREO STUDIOS
             </motion.div>
           </Link>
 

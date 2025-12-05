@@ -7,7 +7,6 @@ import { useScrollAnimation, scrollAnimationVariants } from '../hooks/useScrollA
 const Services = () => {
   const [servicesRef, servicesVisible] = useScrollAnimation(0.1);
   const [processRef, processVisible] = useScrollAnimation(0.1);
-  const [ctaRef, ctaVisible] = useScrollAnimation(0.1);
   
   const services = [
     {
@@ -173,42 +172,6 @@ const Services = () => {
           </motion.div>
         </motion.div>
 
-        {/* CTA Section with Golden Accents */}
-        <motion.div
-          ref={ctaRef}
-          initial="hidden"
-          animate={ctaVisible ? "visible" : "hidden"}
-          variants={scrollAnimationVariants.fadeInUp}
-          className="glass-dark border-4 border-golden-glow p-8 sm:p-12 rounded-3xl text-center relative overflow-hidden"
-        >
-          {/* Golden Corner Decorations */}
-          <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-golden" />
-          <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-golden" />
-          <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-golden" />
-          <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-golden" />
-          
-          {/* Subtle golden glow */}
-          <div className="absolute inset-0 opacity-20 bg-golden-radial-soft" />
-          
-          <div className="relative z-10">
-            <h2 className="text-3xl sm:text-5xl font-bold mb-4 font-serif gradient-text-golden">
-              Ready to Get Started?
-            </h2>
-            <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-              Submit your project proposal today. Initial consultation and project assessment are complimentary. 
-              Professional delivery timeline starts at 3 business days.
-            </p>
-            <Link
-              to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
-              className="inline-block px-8 py-4 bg-white text-black rounded-full font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all glow-golden-strong"
-            >
-              Request Consultation
-            </Link>
-            <p className="text-gray-400 text-sm mt-4">
-              Flexible payment options available. Professional project delivery guaranteed.
-            </p>
-          </div>
-        </motion.div>
       </div>
     </div>
   );
