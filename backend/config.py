@@ -20,13 +20,17 @@ class Config:
     JWT_COOKIE_CSRF_PROTECT = False  # Enable in production if using cookies
     JWT_COOKIE_SAMESITE = 'Lax'
     
+    # Secret Keys
+    SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+    
     # Mail Configuration
     MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = int(os.getenv('MAIL_PORT', 587))
     MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'noreply@example.com')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'dummy-password')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', os.getenv('MAIL_USERNAME'))
+    MAIL_SUPPRESS_SEND = os.getenv('MAIL_SUPPRESS_SEND', 'False') == 'True'  # Suppress emails in dev
     
     # Security
     SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key-change-in-production')

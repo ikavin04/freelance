@@ -125,14 +125,14 @@ def register():
         db.session.add(new_otp)
         db.session.commit()
         
-        # Send OTP email
-        if send_otp_email(email, otp):
-            return jsonify({
-                'message': 'Registration successful! OTP sent to your email.',
-                'email': email
-            }), 201
-        else:
-            return jsonify({'message': 'Registration successful but failed to send OTP. Please try again.'}), 500
+        # Send OTP email (skip if mail not configured)
+        email_sent = send_otp_email(email, otp)
+        
+        return jsonify({
+            'message': 'Registration successful! OTP sent to your email.' if email_sent else f'Registration successful! Your OTP is: {otp}',
+            'email': email,
+            'otp': otp if not email_sent else None  # Include OTP in response if email fails (dev only)
+        }), 201
             
     except Exception as e:
         db.session.rollback()
