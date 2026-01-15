@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaUser, FaSignOutAlt, FaSun, FaMoon } from 'react-icons/fa';
-import { authHelpers } from '../services/api';
+import { FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import { useTheme } from '../contexts/ThemeContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,22 +18,11 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    setIsAuthenticated(authHelpers.isAuthenticated());
-    setUser(authHelpers.getUser());
-  }, [location]);
-
-  const handleLogout = () => {
-    authHelpers.logout();
-    setIsAuthenticated(false);
-    setUser(null);
-    navigate('/');
-  };
-
   const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
     { path: '/services', label: 'Services' },
+    { path: '/contact', label: 'Contact' },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -72,8 +57,8 @@ const Navbar = () => {
               {theme === 'dark' ? <FaSun size={16} /> : <FaMoon size={16} />}
             </button>
 
-            {/* Only show navigation links if user is not an admin */}
-            {!user?.is_admin && navLinks.map((link) => (
+            {/* Navigation links */}
+            {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -90,68 +75,6 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {isAuthenticated ? (
-              <>
-                {user?.is_admin ? (
-                  /* Admin-only navigation */
-                  <>
-                    <Link
-                      to="/admin"
-                      className="px-6 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
-                    >
-                      <FaUser className="text-xs" />
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
-                    >
-                      <FaSignOutAlt className="text-xs" />
-                      Exit
-                    </button>
-                  </>
-                ) : (
-                  /* Regular user navigation */
-                  <>
-                    <Link
-                      to="/apply"
-                      className="px-6 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
-                    >
-                      Apply Now
-                    </Link>
-                    <Link
-                      to="/my-applications"
-                      className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
-                    >
-                      <FaUser className="text-xs" />
-                      Projects
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center gap-2"
-                    >
-                      <FaSignOutAlt className="text-xs" />
-                      Logout
-                    </button>
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="px-6 py-2 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="px-6 py-2 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
-                >
-                  Get Started
-                </Link>
-              </>
-            )}
           </div>
 
           {/* Mobile Menu & Theme Toggle */}
@@ -185,8 +108,8 @@ const Navbar = () => {
               className="md:hidden bg-black border-t border-white/10 mt-2 mb-4 overflow-hidden"
             >
               <div className="flex flex-col space-y-2 p-4">
-                {/* Only show navigation links if user is not an admin */}
-                {!user?.is_admin && navLinks.map((link) => (
+                {/* Navigation links */}
+                {navLinks.map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
@@ -200,80 +123,6 @@ const Navbar = () => {
                     {link.label}
                   </Link>
                 ))}
-
-                {isAuthenticated ? (
-                  <>
-                    {user?.is_admin ? (
-                      /* Admin mobile navigation */
-                      <>
-                        <Link
-                          to="/admin"
-                          onClick={() => setIsOpen(false)}
-                          className="px-6 py-3 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
-                        >
-                          <FaUser className="text-xs" />
-                          Dashboard
-                        </Link>
-                        <button
-                          onClick={() => {
-                            handleLogout();
-                            setIsOpen(false);
-                          }}
-                          className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
-                        >
-                          <FaSignOutAlt className="text-xs" />
-                          Exit
-                        </button>
-                      </>
-                    ) : (
-                      /* Regular user mobile navigation */
-                      <>
-                        <Link
-                          to="/apply"
-                          onClick={() => setIsOpen(false)}
-                          className="px-6 py-3 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
-                        >
-                          Apply Now
-                        </Link>
-                        <Link
-                          to="/my-applications"
-                          onClick={() => setIsOpen(false)}
-                          className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
-                        >
-                          <FaUser className="text-xs" />
-                          Projects
-                        </Link>
-                        <button
-                          onClick={() => {
-                            handleLogout();
-                            setIsOpen(false);
-                          }}
-                          className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs flex items-center justify-center gap-2"
-                        >
-                          <FaSignOutAlt className="text-xs" />
-                          Logout
-                        </button>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      to="/login"
-                      onClick={() => setIsOpen(false)}
-                      className="px-6 py-3 border-2 border-white/20 hover:border-white transition-all font-medium uppercase tracking-wider text-xs"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/register"
-                      onClick={() => setIsOpen(false)}
-                      className="px-6 py-3 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all font-medium uppercase tracking-wider text-xs"
-                    >
-                      Get Started
-                    </Link>
-                  </>
-                )}
               </div>
             </motion.div>
           )}

@@ -1,5 +1,0 @@
-# Deployment Scripts
-
-# For Render.com deployment
-chmod +x deploy-render.sh
-./deploy-render.sh

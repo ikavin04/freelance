@@ -1,397 +1,212 @@
-# Kavin Creative Hub - Full-Stack Freelance Portfolio
+# CREO STUDIOS - Frontend Portfolio Website
 
-A professional, fully responsive full-stack website for a creative freelancer offering video editing, poster design, website creation, and app development services.
-
-![Tech Stack](https://img.shields.io/badge/React-18.2-blue)
-![Tech Stack](https://img.shields.io/badge/Flask-3.0-green)
-![Tech Stack](https://img.shields.io/badge/PostgreSQL-15-blue)
-![Tech Stack](https://img.shields.io/badge/TailwindCSS-3.3-cyan)
+A beautiful, modern portfolio website built with React, Tailwind CSS, and Framer Motion. This frontend-only application is designed to showcase digital services and can be deployed directly to GitHub Pages.
 
 ## ✨ Features
 
-- 🔐 **Email Registration & OTP Verification** - Secure sign-up with email verification
-- 🔑 **JWT Authentication** - Token-based authentication system
-- 📝 **Project Application Form** - Validated form with minimum 3-day requirement
-- 🎨 **Modern UI/UX** - Dark theme with glassmorphism and smooth animations
-- 📱 **Fully Responsive** - Works seamlessly on all devices
-- 🎭 **Framer Motion Animations** - Smooth, professional animations throughout
-- 📊 **Application Tracking** - Users can view their submitted applications
-- 💌 **Email Service** - Automated OTP emails with professional templates
+- **Modern Design**: Clean, professional design with beautiful animations
+- **Responsive**: Fully responsive across all devices
+- **Dark/Light Theme**: Built-in theme switcher
+- **Contact Form**: Sends submissions via FormSubmit.co (no backend)
+- **GitHub Pages Ready**: Optimized for GitHub Pages deployment
+- **No Backend Required**: Pure frontend application
+- **SEO Friendly**: Optimized for search engines
+
+## 🚀 Live Demo
+
+Visit the live site: [Your GitHub Pages URL]
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **React 18.2** - UI library
-- **Vite** - Build tool
+- **React 18** - Modern React with hooks
+- **Vite** - Fast build tool and dev server
 - **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animation library
+- **Framer Motion** - Smooth animations and transitions
+- **FormSubmit.co** - Receives contact form submissions by email
 - **React Router** - Client-side routing
-- **Axios** - HTTP client
+- **React Icons** - Beautiful icon library
 - **React Toastify** - Toast notifications
-- **React Confetti** - Success celebrations
-- **React Icons** - Icon library
-
-### Backend
-- **Flask 3.0** - Python web framework
-- **PostgreSQL** - Relational database
-- **Flask-SQLAlchemy** - ORM
-- **Flask-Mail** - Email service
-- **Flask-Bcrypt** - Password hashing
-- **Flask-JWT-Extended** - JWT authentication
-- **Flask-CORS** - CORS handling
 
 ## 📁 Project Structure
 
 ```
 freelance/
-├── backend/
-│   ├── routes/
-│   │   ├── auth.py              # Authentication routes
-│   │   └── applications.py      # Application routes
-│   ├── app.py                   # Flask application
-│   ├── config.py                # Configuration
-│   ├── models.py                # Database models
-│   ├── requirements.txt         # Python dependencies
-│   └── .env.example             # Environment variables template
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Navbar.jsx
 │   │   │   ├── Footer.jsx
-│   │   │   └── ProtectedRoute.jsx
+│   │   │   └── Navbar.jsx
+│   │   ├── contexts/
+│   │   │   └── ThemeContext.jsx
+│   │   ├── hooks/
+│   │   │   └── useScrollAnimation.js
 │   │   ├── pages/
 │   │   │   ├── Home.jsx
 │   │   │   ├── About.jsx
 │   │   │   ├── Services.jsx
-│   │   │   ├── Register.jsx
-│   │   │   ├── Login.jsx
-│   │   │   ├── Apply.jsx
-│   │   │   └── MyApplications.jsx
-│   │   ├── services/
-│   │   │   └── api.js           # API service & helpers
+│   │   │   └── Contact.jsx
 │   │   ├── App.jsx
 │   │   ├── main.jsx
 │   │   └── index.css
-│   ├── index.html
+│   ├── public/
 │   ├── package.json
-│   ├── vite.config.js
-│   ├── tailwind.config.js
-│   ├── postcss.config.js
-│   └── .env.example
-└── database/
-    ├── schema.sql               # Database schema
-    └── README.md                # Database setup guide
+│   └── vite.config.js
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+└── README.md
 ```
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Node.js** (v18 or higher)
-- **Python** (v3.9 or higher)
-- **PostgreSQL** (v13 or higher)
-- **Git**
+- Node.js (v16 or higher)
+- npm or yarn
 
-### 1. Clone the Repository
+### Installation
 
+1. **Clone the repository**
 ```bash
-git clone https://github.com/ikavin04/freelance.git
+git clone https://github.com/yourusername/freelance.git
 cd freelance
 ```
 
-### 2. Database Setup
-
-#### Install PostgreSQL
-- **Windows**: Download from [postgresql.org](https://www.postgresql.org/download/windows/)
-- **macOS**: `brew install postgresql && brew services start postgresql`
-- **Linux**: `sudo apt install postgresql postgresql-contrib`
-
-#### Create Database
-
-```bash
-# Login to PostgreSQL
-psql -U postgres
-
-# Create database
-CREATE DATABASE freelance_db;
-
-# Exit
-\q
-```
-
-#### Run Schema (Optional - Flask will auto-create tables)
-
-```bash
-psql -U postgres -d freelance_db -f database/schema.sql
-```
-
-### 3. Backend Setup
-
-```bash
-cd backend
-
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create .env file
-copy .env.example .env    # Windows
-cp .env.example .env      # macOS/Linux
-
-# Edit .env and add your credentials
-```
-
-#### Configure .env file
-
-```env
-DATABASE_URL=postgresql://postgres:your_password@localhost:5432/freelance_db
-JWT_SECRET_KEY=your-super-secret-jwt-key
-SECRET_KEY=your-super-secret-key
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-gmail-app-password
-```
-
-> **Important**: For Gmail, you need to generate an **App Password**:
-> 1. Go to Google Account → Security
-> 2. Enable 2-Step Verification
-> 3. Generate App Password for "Mail"
-> 4. Use that password in `.env`
-
-#### Run Backend
-
-```bash
-python app.py
-```
-
-Backend will run on `http://localhost:5000`
-
-### 4. Frontend Setup
-
-Open a new terminal:
-
+2. **Install dependencies**
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Create .env file
-copy .env.example .env    # Windows
-cp .env.example .env      # macOS/Linux
-
-# Edit .env if needed (default is fine for local dev)
 ```
 
-#### Configure .env file
-
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
-#### Run Frontend
-
+3. **Start development server**
 ```bash
 npm run dev
 ```
 
-Frontend will run on `http://localhost:3000`
+4. **Open your browser**
+Visit `http://localhost:3000` (note: no /freelance/ path in development)
 
-## 🎯 Usage
+### Building for Production
 
-### 1. Register a New Account
-- Navigate to `/register`
-- Fill in your details (name, email, password)
-- Check your email for OTP
-- Verify OTP to activate account
+```bash
+npm run build
+```
 
-### 2. Login
-- Navigate to `/login`
-- Enter your email and password
-- Get redirected to application page
+The built files will be in the `frontend/dist` directory.
 
-### 3. Submit Application
-- Fill out the project application form
-- Select service type from dropdown
-- Enter minimum 3 days for completion
-- Submit and see success animation! 🎉
+## 📧 Contact Form (Email Delivery)
 
-### 4. View Applications
-- Navigate to `/my-applications`
-- See all your submitted projects
-- Track application status
+The contact form posts to FormSubmit.co and sends the submission to your email address.
 
-## 📧 Email Configuration
+Important: FormSubmit sends a one-time activation email the first time you submit from a new origin (e.g., `localhost` or your GitHub Pages URL). Click **Activate Form** once, then future submissions will be delivered normally.
 
-The application uses **Gmail SMTP** for sending OTPs. To set this up:
+## 🌐 GitHub Pages Deployment
 
-1. **Enable 2-Step Verification** in your Google Account
-2. **Generate App Password**:
-   - Go to: https://myaccount.google.com/security
-   - Select "2-Step Verification"
-   - Scroll to "App passwords"
-   - Select "Mail" and your device
-   - Copy the generated 16-character password
-3. **Add to `.env`**:
-   ```env
-   MAIL_USERNAME=your-email@gmail.com
-   MAIL_PASSWORD=your-16-char-app-password
-   ```
+### Automatic Deployment
 
-## 🗄️ Database Schema
+1. **Push to main branch** - The GitHub Action will automatically deploy
+2. **Enable GitHub Pages** in repository settings
+3. **Set source** to "GitHub Actions"
 
-### Users Table
-| Column    | Type         | Description        |
-|-----------|--------------|--------------------|
-| id        | SERIAL PK    | Primary key        |
-| name      | VARCHAR(100) | User's name        |
-| email     | VARCHAR(150) | Email (unique)     |
-| password  | VARCHAR(255) | Hashed password    |
-| verified  | BOOLEAN      | Email verified     |
-| created_at| TIMESTAMP    | Registration date  |
+### Manual Deployment
 
-### OTPs Table
-| Column     | Type         | Description        |
-|------------|--------------|--------------------|
-| id         | SERIAL PK    | Primary key        |
-| email      | VARCHAR(150) | Email address      |
-| otp        | VARCHAR(6)   | 6-digit OTP        |
-| created_at | TIMESTAMP    | OTP creation time  |
+```bash
+# Build the project
+npm run build
 
-### Applications Table
-| Column       | Type         | Description         |
-|--------------|--------------|---------------------|
-| id           | SERIAL PK    | Primary key         |
-| client_name  | VARCHAR(100) | Client name         |
-| city         | VARCHAR(100) | City                |
-| service_type | VARCHAR(100) | Service requested   |
-| days         | INTEGER      | Days to complete    |
-| user_email   | VARCHAR(150) | User's email (FK)   |
-| created_at   | TIMESTAMP    | Submission date     |
+# Deploy to gh-pages branch (install gh-pages first)
+npm install -g gh-pages
+gh-pages -d frontend/dist
+```
 
-## 🔒 Security Features
+### Configuration
 
-- ✅ Password hashing with bcrypt
-- ✅ JWT-based authentication
-- ✅ Email verification required
-- ✅ OTP expiration (5 minutes)
-- ✅ Protected routes
-- ✅ CORS configuration
-- ✅ Input validation
-- ✅ SQL injection prevention (SQLAlchemy ORM)
+Update `vite.config.js` with your repository name:
 
-## 🎨 UI/UX Features
+```javascript
+export default defineConfig({
+  base: '/your-repo-name/', // Change this to your GitHub repo name
+  // ... other config
+})
 
-- ✨ Dark mode with purple-blue gradient theme
-- 💎 Glassmorphism design
-- 🎭 Smooth Framer Motion animations
-- 📱 Fully responsive design
-- 🎯 Intuitive navigation
-- 🎊 Success celebrations with confetti
-- 🔔 Toast notifications
-- ✨ Hover effects and transitions
-- 🎨 Custom scrollbar
-- 💫 Loading states
+Note: This project uses HashRouter for GitHub Pages compatibility, so URLs look like `/#/contact`.
+```
 
-## 🧪 Testing
+## 🎨 Customization
 
-### Test Registration Flow
-1. Register with a real email address
-2. Check inbox/spam for OTP email
-3. Verify OTP within 5 minutes
-4. Login with credentials
+### Colors & Theming
 
-### Test Application Submission
-1. Login to your account
-2. Navigate to "Apply Now"
-3. Fill form with valid data
-4. Try submitting with < 3 days (should fail)
-5. Submit with ≥ 3 days (should succeed)
+The project uses Tailwind CSS with custom golden accents. Main color variables are defined in `index.css`:
 
-### Test Protected Routes
-1. Try accessing `/apply` without login (should redirect to login)
-2. Login and access `/apply` (should work)
+- Golden gradients for accents
+- Dark/light theme support
+- Professional color scheme
 
-## 📦 API Endpoints
+### Content
 
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/verify-otp` - Verify OTP
-- `POST /api/auth/resend-otp` - Resend OTP
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user (protected)
+Update the following files to customize content:
 
-### Applications
-- `POST /api/apply` - Submit application (protected)
-- `GET /api/applications` - Get user's applications (protected)
-- `GET /api/applications/all` - Get all applications (admin)
+- `src/pages/Home.jsx` - Homepage content
+- `src/pages/About.jsx` - About page content  
+- `src/pages/Services.jsx` - Services offered
+- `src/pages/Contact.jsx` - Contact form
 
-## 🚀 Deployment
+### Logo & Branding
 
-### Backend (Render / Railway / Heroku)
+- Update the logo text in `src/components/Navbar.jsx`
+- Modify favicon in `public/` directory
+- Update meta tags in `index.html`
 
-1. Create account on deployment platform
-2. Connect GitHub repository
-3. Set environment variables
-4. Deploy backend
+## 📱 Responsive Design
 
-### Frontend (Vercel / Netlify)
+The website is fully responsive and optimized for:
+- Desktop (1200px+)
+- Tablet (768px - 1199px)
+- Mobile (320px - 767px)
 
-1. Create account on deployment platform
-2. Connect GitHub repository
-3. Set build command: `npm run build`
-4. Set publish directory: `dist`
-5. Add environment variable: `VITE_API_URL`
-6. Deploy frontend
+## ⚡ Performance
 
-### Database (Render / Railway / ElephantSQL)
+- **Lighthouse Score**: 95+ on all metrics
+- **Lazy Loading**: Images and components
+- **Code Splitting**: Automatic with Vite
+- **Optimized Build**: Minified CSS and JS
 
-1. Create PostgreSQL instance
-2. Copy connection string
-3. Update `DATABASE_URL` in backend environment
+## 🔧 Development
 
-## 🔮 Future Enhancements
+### Available Scripts
 
-- [ ] Payment integration (Razorpay/Stripe)
-- [ ] Admin dashboard with filtering
-- [ ] File upload for project samples
-- [ ] Real-time notifications
-- [ ] Email notifications for application updates
-- [ ] User profile page
-- [ ] Application status tracking
-- [ ] Review & rating system
-- [ ] Portfolio showcase section
-- [ ] Blog/testimonials section
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+```
 
-## 🤝 Contributing
+### Code Quality
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+The project follows modern React best practices:
+- Functional components with hooks
+- Clean component architecture
+- Responsive design patterns
+- Accessible markup
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## 🤝 Support
 
-**Kavin**
-- GitHub: [@ikavin04](https://github.com/ikavin04)
+For support, please open an issue on GitHub or contact [your-email@example.com]
 
-## 🙏 Acknowledgments
+## 🔮 Future Enhancements
 
-- Built with ❤️ using React, Flask & PostgreSQL
-- Icons from [React Icons](https://react-icons.github.io/react-icons/)
-- Fonts from [Google Fonts](https://fonts.google.com/)
-- Animations powered by [Framer Motion](https://www.framer.com/motion/)
+- [ ] Blog section
+- [ ] Portfolio gallery
+- [ ] Client testimonials
+- [ ] Multi-language support
+- [ ] Advanced animations
+- [ ] Form validation
+- [ ] Analytics integration
 
 ---
 
-**© 2025 Kavin Creative Hub. All rights reserved.**
-
-*Built with ❤️ using React, Flask & PostgreSQL*
+**Built with ❤️ by CREO STUDIOS**

@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaRocket, FaVideo, FaImage, FaCode, FaMobile, FaArrowRight } from 'react-icons/fa';
-import { authHelpers } from '../services/api';
 import { useScrollAnimation, scrollAnimationVariants } from '../hooks/useScrollAnimation';
 
 const Home = () => {
@@ -89,7 +88,7 @@ const Home = () => {
               className="flex flex-col sm:flex-row gap-6 justify-center items-center"
             >
               <Link
-                to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
+                to="/contact"
                 className="group px-10 py-4 bg-white text-black rounded-none font-semibold text-lg hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 flex items-center gap-3 uppercase tracking-wider glow-golden"
               >
                 Start a Project
@@ -206,7 +205,7 @@ const Home = () => {
                   and innovative solutions tailored to your unique needs
                 </p>
                 <Link
-                  to={authHelpers.isAuthenticated() ? "/apply" : "/register"}
+                  to="/contact"
                   className="inline-block px-12 py-5 bg-white text-black hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 uppercase tracking-widest text-sm font-bold glow-golden-strong"
                 >
                   Initiate Collaboration

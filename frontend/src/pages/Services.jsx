@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaVideo, FaImage, FaCode, FaMobile, FaArrowRight, FaCheck } from 'react-icons/fa';
-import { authHelpers } from '../services/api';
 import { useScrollAnimation, scrollAnimationVariants } from '../hooks/useScrollAnimation';
 
 const Services = () => {
